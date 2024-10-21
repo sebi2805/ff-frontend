@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "dev": "next dev",
     "build-qa": "env-cmd -f ./.env.qa next build",
     "build-development": "env-cmd -f ./.env.development next build",
     "build-main": "env-cmd -f ./.env.production next build",
