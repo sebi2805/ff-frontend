@@ -32,7 +32,7 @@ jobs:
             git pull
             nvm use 16.15.1
             npm install
-            npm run build
+            npm run build-development
             pm2 stop dev-ff-frontend
             pm2 stop dev-ff-frontend
           EOF
