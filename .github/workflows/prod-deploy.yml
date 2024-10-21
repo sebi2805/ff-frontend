@@ -1,4 +1,4 @@
-name: Nextjs CI
+name: Prod Nextjs CI
 
 on:
   push:
@@ -33,6 +33,6 @@ jobs:
             nvm use 16.15.1
             npm install
             npm run build-main
-            pm2 stop ff-frontend
-            pm2 stop ff-frontend
+            pm2 stop prod-ff-frontend
+            pm2 stop prod-ff-frontend
           EOF
