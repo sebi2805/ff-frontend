@@ -1,0 +1,75 @@
+"use client";
+import React, { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { MenuIcon, XIcon } from "@heroicons/react/outline";
+
+const navLinks = [
+  { label: "Home", href: "/" },
+  { label: "Workouts", href: "/workouts" },
+  { label: "Nutrition", href: "/nutrition" },
+  { label: "About", href: "/about" },
+];
+
+const Navbar = () => {
+  const [navOpen, setNavOpen] = useState(false);
+
+  return (
+    <nav className="bg-purple-600 text-white fixed w-full top-0 z-10">
+      <div className="flex items-center justify-between px-4 py-2">
+        {/* Logo */}
+        <div className="flex items-center">
+          <div className="relative w-12 h-12">
+            <Image
+              src="/logo_4.png" // Replace with your actual logo path
+              alt="FitFlow Logo"
+              layout="fill"
+              objectFit="cover"
+            />
+          </div>
+          <span className="ml-2 font-bold text-xl">FitFlow</span>
+        </div>
+
+        {/* Desktop Navigation Links */}
+        <ul className="hidden md:flex space-x-4">
+          {navLinks.map((link) => (
+            <li key={link.label}>
+              <Link href={link.href} className="hover:text-purple-200">
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        {/* Mobile Menu Button */}
+        <div className="md:hidden">
+          <button onClick={() => setNavOpen(!navOpen)} type="button">
+            {navOpen ? (
+              <XIcon className="h-6 w-6 text-white" />
+            ) : (
+              <MenuIcon className="h-6 w-6 text-white" />
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Navigation Links */}
+      {navOpen && (
+        <ul className="md:hidden px-4 pt-2 pb-4 space-y-1 bg-purple-700">
+          {navLinks.map((link) => (
+            <li key={link.label}>
+              <Link
+                href={link.href}
+                className="block text-white hover:text-purple-200"
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </nav>
+  );
+};
+
+export default Navbar;
