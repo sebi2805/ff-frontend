@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Personalizare pentru scrollbars */
+::-webkit-scrollbar {
+  width: 8px; /* Lățimea scroll-ului vertical */
+  height: 8px; /* Înălțimea scroll-ului orizontal */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #330078; /* Culoarea scroll-ului */
+  border-radius: 4px; /* Colțuri rotunjite */
+}
+
+::-webkit-scrollbar-track {
+  background: #f0f0f0; /* Culoarea fundalului pistei scrollbar-ului */
+  border-radius: 4px;
+}
