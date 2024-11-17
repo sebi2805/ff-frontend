@@ -33,6 +33,10 @@ module.exports = {
           950: "#5c0042",
         },
       },
+      fontFamily: {
+        bebas: ["bebas", "sans-serif"],
+        sans: ["geist", "sans-serif"],
+      },
     },
   },
   plugins: [],
