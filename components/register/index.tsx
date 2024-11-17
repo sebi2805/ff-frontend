@@ -4,7 +4,8 @@ import { LockClosedIcon, MailIcon, UserIcon } from "@heroicons/react/solid";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { RegisterValidationErrors } from "../../interfaces/login";
+import { RegisterPayload, RegisterValidationErrors } from "../../interfaces/authentication";
+import apiClient from "../../utils/apiClient";
 
 const RegisterPage: React.FC = () => {
     const router = useRouter();
@@ -53,13 +54,13 @@ const RegisterPage: React.FC = () => {
         }
         
         try {
-            // const response = await apiClient.post("/api/Users/register", {
-            //     email,
-            //     username,
-            //     password,
-            //   });
-            localStorage.setItem("email", email)
-            router.push("/verify-token");
+            const registerPayload : RegisterPayload = {name: username, email: email, password: password}
+            const response = await apiClient.post("/api/Users/register-user", registerPayload);
+            if(response.status === 200)
+            {
+                localStorage.setItem("email", email)
+                router.push("/verify-token");
+            }
         } catch (err) {
             console.error(err);
         }

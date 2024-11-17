@@ -12,6 +12,12 @@ export interface RegisterValidationErrors {
 }
 
 export interface RegisterPayload {
+  name: string;
   email: string;
   password: string;
+}
+
+export interface VerifyTokenPayload {
+  email: string;
+  token: number;
 }

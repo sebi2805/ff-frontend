@@ -1,10 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
-import apiClient from "../../utils/apiClient";
-import { LoginResponse } from "../../interfaces/login";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 const LoginPage: React.FC = () => {
   const router = useRouter();

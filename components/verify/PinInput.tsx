@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 
 interface FourDigitInputProps{
-    onSubmit: (number: string) => void;
+    onSubmit: (token: number) => void;
+    error: string;
 }
 
-const FourDigitInput: React.FC<FourDigitInputProps> = ({onSubmit}) => {
+const FourDigitInput: React.FC<FourDigitInputProps> = ({onSubmit, error}) => {
 const [values, setValues] = useState(['', '', '', ''])
 const [isDisabled, setIsDisabled] = useState(true)
 const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
@@ -38,7 +39,7 @@ const handleKeyDown = (index: number, event: React.KeyboardEvent) => {
 }
 const handleSendNumber = () => {
     const fullNumber : string = values.join("");
-    onSubmit(fullNumber)
+    onSubmit(Number(fullNumber))
 }
 
 return(
@@ -58,6 +59,7 @@ return(
                     />
             ))}
         </div>
+        {error && <p className="text-red-500 mb-4">{error}</p>}
         <button onClick={handleSendNumber} disabled={isDisabled} 
                 className="bg-purple-950 text-2xl font-bebas h-12 rounded-t-md mt-20 w-2/3 disabled:opacity-50">
             Verifică
