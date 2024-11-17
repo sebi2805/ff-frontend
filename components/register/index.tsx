@@ -68,7 +68,7 @@ const RegisterPage: React.FC = () => {
 
     return(
         <div className="root-div flex items-center justify-center h-[100dvh] bg-black">
-            <div className="register-page bg-purple-600 h-full w-[100vw] max-h-[800px] max-w-md flex flex-col items-center justify-around p-10">
+            <div className="register-page bg-purple-600 h-full w-[100vw] max-h-[800px] max-w-md flex flex-col items-center justify-around p-10 rounded-md">
                 <div className="logo-and-name flex flex-col items-center w-full">
                     <Image
                         className="logo flex-none"
