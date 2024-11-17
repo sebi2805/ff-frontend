@@ -54,7 +54,7 @@ return(
                     onChange={(e) => handleChange(index, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(index, e)}
                     ref={(el) => {if(el) inputsRef.current[index] = el}}
-                    className="h-[17vw] max-h-[150px] w-[17vw] max-w-[150px] bg-purple-400 rounded-md text-center caret-transparent focus:outline-none focus:border-2 focus:border-purple-200"
+                    className="h-[50px] w-[50px] bg-purple-400 rounded-md text-center caret-transparent focus:outline-none focus:border-2 focus:border-purple-200"
                     />
             ))}
         </div>

@@ -31,12 +31,14 @@ const VerifyPage: React.FC = () => {
 
     return(
         <>
-            <div className="root-div flex flex-col h-[100dvh] bg-purple-600 p-6">
-                <h1 className="font-bold text-3xl">Verifică-ți mail-ul</h1>
-                <p className="text-md mt-10"> V-am trimis un cod de confirmare la adresa </p>
-                <p className="text-lg text-center">{email}</p>
-                <FourDigitInput onSubmit={handleSubmit}/>
-                <button onClick={()=>router.push('/login')} className="w-fit mt-3 text-xl" >înapoi la logare</button>
+            <div className="root-div flex items-center justify-center h-[100dvh] bg-black">
+                <div className="verify-page flex flex-col items-center h-full w-full max-h-[800px] max-w-md bg-purple-600 p-6">
+                    <h1 className="font-bold text-3xl">Check your inbox</h1>
+                    <p className="text-md mt-10"> We&apos;ve sent you a confirmation code at </p>
+                    <p className="text-lg">{email}</p>
+                    <FourDigitInput onSubmit={handleSubmit}/>
+                    <button onClick={()=>router.push('/login')} className="w-fit mt-3 text-xl" >Back to login</button>
+                </div>
             </div>
         </>
     )
