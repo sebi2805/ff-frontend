@@ -17,3 +17,21 @@
   background: #f0f0f0; /* Culoarea fundalului pistei scrollbar-ului */
   border-radius: 4px;
 }
+
+@font-face{
+    font-family: "bebas";
+    src: url('/fonts/BebasNeue-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face{
+    font-family: "geist";
+    src: url('/fonts/GeistVF.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body{
+  @apply text-white;
+}
