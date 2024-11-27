@@ -1,5 +1,5 @@
 import VerifyPage from "../../../components/verify";
 
-export default function Home() {
+export default function VerifyToken() {
     return <VerifyPage/>
 }

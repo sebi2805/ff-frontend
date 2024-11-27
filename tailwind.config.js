@@ -32,6 +32,14 @@ module.exports = {
           800: "#a5037a",
           950: "#5c0042",
         },
+        black: {
+          light: '#1a1a1a',  // Slightly lighter black
+          lighter: '#2a2a2a', // Lighter shade for accents
+          dark: '#000000',   // Pure black
+          text: '#e5e5e5',   // Soft white for text
+          muted: '#888888',  // Muted gray for secondary text
+          highlight: '#3d3d3d', // Highlight areas
+        },
       },
       fontFamily: {
         bebas: ["bebas", "sans-serif"],

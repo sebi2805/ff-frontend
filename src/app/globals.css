@@ -2,36 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Personalizare pentru scrollbars */
 ::-webkit-scrollbar {
-  width: 8px; /* Lățimea scroll-ului vertical */
-  height: 8px; /* Înălțimea scroll-ului orizontal */
+  width: 4px;
+  height: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #330078; /* Culoarea scroll-ului */
-  border-radius: 4px; /* Colțuri rotunjite */
-}
-
-::-webkit-scrollbar-track {
-  background: #f0f0f0; /* Culoarea fundalului pistei scrollbar-ului */
+  background-color: #330078;
   border-radius: 4px;
 }
 
-@font-face{
-    font-family: "bebas";
-    src: url('/fonts/BebasNeue-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 4px;
 }
 
-@font-face{
-    font-family: "geist";
-    src: url('/fonts/GeistVF.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+@font-face {
+  font-family: "bebas";
+  src: url("/fonts/BebasNeue-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
-body{
+@font-face {
+  font-family: "geist";
+  src: url("/fonts/GeistVF.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
   @apply text-white;
 }
