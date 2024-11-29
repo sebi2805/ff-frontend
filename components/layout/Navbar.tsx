@@ -15,7 +15,7 @@ const Navbar = () => {
   const [navOpen, setNavOpen] = useState(false);
 
   return (
-    <nav className="bg-purple-600 text-white fixed w-full top-0 z-10">
+    <nav className="bg-black-lighter text-white fixed w-full top-0 z-10">
       <div className="flex items-center justify-between px-4 py-2">
         {/* Logo */}
         <div className="flex items-center">
