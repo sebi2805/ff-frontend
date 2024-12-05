@@ -12,8 +12,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  console.log(accessToken);
-  console.log(pathname);
   try {
     // lets make an exception here for the middleware
     // bcs I need to extract the cookies on the server and I dont want to alter the axios only for 1 instance
