@@ -23,7 +23,6 @@ export async function middleware(request: NextRequest) {
         },
       }
     );
-    console.log(response.data);
     const userRole = response.data as string;
     if (pathname.startsWith("/home/admin") && userRole !== "Admin") {
       return NextResponse.redirect(new URL("/unauthorized", request.url));

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import UserRow from "./UserRow";
 import { useUsersManagement } from "./useUsersManagement";
-import ConfirmationModal from "../common/ConfirmationModel";
+import ConfirmationModal from "../common/ConfirmationModal";
 
 const UserTable: React.FC = () => {
   const { users, fetchUsers, onDelete, onToggle } = useUsersManagement();

@@ -3,6 +3,7 @@ import React, { Suspense } from "react";
 
 import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 
 export const metadata: Metadata = {
   title: "Fit Flow",
