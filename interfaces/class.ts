@@ -24,3 +24,10 @@ export interface AddClassDto {
   startDate: string;
   endDate: string;
 }
+
+export interface ClassFormValues {
+  trainerName: string;
+  interval: string;
+  startDate: string;
+  endDate: string;
+}

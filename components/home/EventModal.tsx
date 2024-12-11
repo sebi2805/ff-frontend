@@ -1,11 +1,13 @@
 import React, { Fragment, useState, FormEvent } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import CreatableSelect from "react-select/creatable";
-import { AddClassDto } from "../../interfaces/class";
+import { AddClassDto, ClassFormValues } from "../../interfaces/class";
+import Button from "../common/Button";
 
 interface EventModalProps {
   isOpen: boolean;
   trainers: string[];
+  isLoading: boolean;
   onClose: () => void;
   onAddEvent: (classDto: AddClassDto) => void;
   defaultDate: Date;
@@ -14,24 +16,18 @@ interface EventModalProps {
 const EventModal: React.FC<EventModalProps> = ({
   isOpen,
   trainers,
+  isLoading,
   onClose,
   onAddEvent,
   defaultDate,
 }) => {
-  interface FormValues {
-    trainerName: string;
-    interval: string;
-    startDate: string;
-    endDate: string;
-  }
-
   // Default values for the form
   const defaultStart = defaultDate.toISOString().substring(0, 16);
   const defaultEnd = new Date(defaultDate.getTime() + 60 * 60 * 1000)
     .toISOString()
     .substring(0, 16);
 
-  const [formValues, setFormValues] = useState<FormValues>({
+  const [formValues, setFormValues] = useState<ClassFormValues>({
     trainerName: "",
     interval: "0",
     startDate: defaultStart,
@@ -51,21 +47,53 @@ const EventModal: React.FC<EventModalProps> = ({
   };
 
   const handleChange =
-    (field: keyof FormValues) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    (field: keyof ClassFormValues) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
       setFormValues((prev) => ({
         ...prev,
         [field]: e.target.value,
       }));
     };
 
+  const [errors, setErrors] = useState<string[]>([]);
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+
+    const newErrors: string[] = [];
+    const startDate = new Date(formValues.startDate);
+    const endDate = new Date(formValues.endDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Comparăm doar datele, nu orele
+
+    if (!formValues.trainerName) {
+      newErrors.push("Trainer name cannot be empty.");
+    }
+
+    if (startDate.getTime() < today.getTime()) {
+      newErrors.push("Start date cannot be in the past.");
+    }
+
+    if (startDate.getTime() >= endDate.getTime()) {
+      newErrors.push("Start date must be before the end date.");
+    }
+
+    if (Number(formValues.interval) < 0) {
+      newErrors.push("Interval cannot be negative.");
+    }
+
+    if (newErrors.length > 0) {
+      setErrors(newErrors); // Stocăm erorile pentru afișare
+      return;
+    }
+
+    setErrors([]); // Resetăm erorile dacă totul este valid
 
     const classDto: AddClassDto = {
       trainerName: formValues.trainerName,
       interval: Number(formValues.interval),
-      startDate: new Date(formValues.startDate).toISOString(),
-      endDate: new Date(formValues.endDate).toISOString(),
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString(),
     };
 
     onAddEvent(classDto);
@@ -116,7 +144,20 @@ const EventModal: React.FC<EventModalProps> = ({
               >
                 Add New Class
               </Dialog.Title>
+
+              {/* Afișare Erori */}
+              {errors.length > 0 && (
+                <div className="bg-red-500 text-white text-sm p-3 rounded-md">
+                  <ul>
+                    {errors.map((error, index) => (
+                      <li key={index}>{error}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
               <form onSubmit={handleSubmit} className="mt-4 space-y-4">
+                {/* Restul codului pentru formular */}
                 {/* Trainer Select */}
                 <div>
                   <label className="block text-sm font-medium text-black-text">
@@ -130,48 +171,47 @@ const EventModal: React.FC<EventModalProps> = ({
                     styles={{
                       control: (base, state) => ({
                         ...base,
-                        backgroundColor: "#2a2a2a", // Matches `bg-black-lighter`
-                        color: "#e5e5e5", // Matches `text-black-text`
-                        borderColor: state.isFocused ? "#a872ff" : "#4b5563", // Purple for focus, gray for default
+                        backgroundColor: "#2a2a2a",
+                        color: "#e5e5e5",
+                        borderColor: state.isFocused ? "#a872ff" : "#4b5563",
                         boxShadow: state.isFocused
                           ? "0 0 0 1px #a872ff"
                           : undefined,
                         "&:hover": {
-                          borderColor: "#a872ff", // Purple hover
+                          borderColor: "#a872ff",
                         },
                       }),
                       menu: (base) => ({
                         ...base,
-                        backgroundColor: "#1a1a1a", // Matches darker black
-                        color: "#e5e5e5", // Matches text color
+                        backgroundColor: "#1a1a1a",
+                        color: "#e5e5e5",
                       }),
                       singleValue: (base) => ({
                         ...base,
-                        color: "#e5e5e5", // Matches text-black-text
+                        color: "#e5e5e5",
                       }),
                       input: (base) => ({
                         ...base,
-                        color: "#e5e5e5", // Matches text-black-text
+                        color: "#e5e5e5",
                       }),
                       placeholder: (base) => ({
                         ...base,
-                        color: "#888888", // Matches muted text
+                        color: "#888888",
                       }),
                       option: (base, state) => ({
                         ...base,
                         backgroundColor: state.isFocused
                           ? "#a872ff"
-                          : "#1a1a1a", // Purple for focus, darker black for default
-                        color: "#e5e5e5", // Matches text color
+                          : "#1a1a1a",
+                        color: "#e5e5e5",
                         "&:active": {
-                          backgroundColor: "#a872ff", // Purple on active
+                          backgroundColor: "#a872ff",
                         },
                       }),
                     }}
                   />
                 </div>
 
-                {/* Interval */}
                 <div>
                   <label className="block text-sm font-medium text-black-text">
                     Interval (days)
@@ -185,7 +225,6 @@ const EventModal: React.FC<EventModalProps> = ({
                   />
                 </div>
 
-                {/* Start Date */}
                 <div>
                   <label className="block text-sm font-medium text-black-text">
                     Start Date
@@ -199,7 +238,6 @@ const EventModal: React.FC<EventModalProps> = ({
                   />
                 </div>
 
-                {/* End Date */}
                 <div>
                   <label className="block text-sm font-medium text-black-text">
                     End Date
@@ -222,12 +260,13 @@ const EventModal: React.FC<EventModalProps> = ({
                   >
                     Cancel
                   </button>
-                  <button
+                  <Button
+                    isLoading={isLoading}
                     type="submit"
                     className="bg-purple-400 hover:bg-purple-200 text-black-text font-bold py-2 px-4 rounded"
                   >
                     Save
-                  </button>
+                  </Button>
                 </div>
               </form>
             </div>

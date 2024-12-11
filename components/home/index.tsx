@@ -1,16 +1,19 @@
 "use client";
+import moment from "moment";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
-import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { toast } from "react-toastify";
 import {
   AddClassDto,
   CalendarEvent,
   GetClassDto,
 } from "../../interfaces/class";
-import { useRouter } from "next/navigation";
 import apiClient from "../../utils/apiClient";
+import { getRole } from "../../utils/common";
 import EventModal from "./EventModal";
+import { decodeErrorMessage } from "../../utils/errorMessages";
 
 const localizer = momentLocalizer(moment);
 
@@ -19,6 +22,8 @@ const CalendarComponent: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [trainers, setTrainers] = useState<string[]>([]);
+  const [role, setRole] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const fetchClasses = async () => {
@@ -47,6 +52,11 @@ const CalendarComponent: React.FC = () => {
     });
   };
 
+  const fetchRole = async () => {
+    const role = await getRole();
+    setRole(role);
+  };
+
   const handleSelectSlot = (slotInfo: { start: Date; end: Date }) => {
     setSelectedDate(slotInfo.start);
     setIsModalOpen(true);
@@ -58,7 +68,19 @@ const CalendarComponent: React.FC = () => {
   };
 
   const handleAddEvent = async (classDto: AddClassDto) => {
-    await apiClient.post("api/Classes/add", classDto);
+    setIsLoading(true);
+    await apiClient
+      .post("api/Classes/add", classDto)
+      .then(() => {
+        toast.success("Class created successfully!");
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        const errorMessage =
+          error.response?.data[0] || "Couldn't create a class.";
+        toast.error(decodeErrorMessage(errorMessage));
+        setIsLoading(false);
+      });
     fetchClasses();
     handleCloseModal();
   };
@@ -66,6 +88,7 @@ const CalendarComponent: React.FC = () => {
   useEffect(() => {
     fetchClasses();
     fetchTrainers();
+    fetchRole();
   }, []);
 
   return (
@@ -75,7 +98,7 @@ const CalendarComponent: React.FC = () => {
         events={events}
         startAccessor="start"
         endAccessor="end"
-        selectable
+        selectable={role === "GymOwner"}
         onSelectSlot={handleSelectSlot}
         onSelectEvent={(event) => router.push(`/home/class/${event.id}`)}
         defaultView="month"
@@ -98,6 +121,7 @@ const CalendarComponent: React.FC = () => {
         <EventModal
           trainers={trainers}
           isOpen={isModalOpen}
+          isLoading={isLoading}
           onClose={handleCloseModal}
           defaultDate={selectedDate}
           onAddEvent={handleAddEvent}

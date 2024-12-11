@@ -15,5 +15,9 @@ export const isValidPasswordConfirm = (
 };
 
 export const isValidLocation = (location: string) => {
-  return location.trim().length > 0;
+  return location.trim().length > 0 && location.trim().length <= 30;
+};
+
+export const isValidUsername = (username: string) => {
+  return username.length >= 3 && username.length <= 20;
 };
