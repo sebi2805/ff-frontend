@@ -1,7 +1,7 @@
 export interface GetRewardDto {
   id: string;
   name: string;
-  normalUserName: number;
+  normalname: number;
   gymName: number;
   redeemDate: string;
 }

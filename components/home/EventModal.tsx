@@ -1,4 +1,4 @@
-import React, { Fragment, useState, FormEvent } from "react";
+import React, { Fragment, useState, FormEvent, useMemo } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import CreatableSelect from "react-select/creatable";
 import { AddClassDto, ClassFormValues } from "../../interfaces/class";
@@ -10,7 +10,8 @@ interface EventModalProps {
   isLoading: boolean;
   onClose: () => void;
   onAddEvent: (classDto: AddClassDto) => void;
-  defaultDate: Date;
+  defaultStartDate: Date;
+  defaultEndDate: Date;
 }
 
 const EventModal: React.FC<EventModalProps> = ({
@@ -19,13 +20,23 @@ const EventModal: React.FC<EventModalProps> = ({
   isLoading,
   onClose,
   onAddEvent,
-  defaultDate,
+  defaultStartDate,
+  defaultEndDate,
 }) => {
   // Default values for the form
-  const defaultStart = defaultDate.toISOString().substring(0, 16);
-  const defaultEnd = new Date(defaultDate.getTime() + 60 * 60 * 1000)
-    .toISOString()
-    .substring(0, 16);
+  const defaultStart = useMemo(() => {
+    return defaultStartDate
+      .toLocaleString("sv-SE")
+      .replace(" ", "T")
+      .substring(0, 16);
+  }, [defaultStartDate]);
+
+  const defaultEnd = useMemo(() => {
+    return defaultEndDate
+      .toLocaleString("sv-SE")
+      .replace(" ", "T")
+      .substring(0, 16);
+  }, [defaultEndDate]);
 
   const [formValues, setFormValues] = useState<ClassFormValues>({
     trainerName: "",

@@ -3,6 +3,7 @@ export interface GetClassDto {
   trainerName: string;
   gymName: string;
   color: string;
+  hasJoined: boolean;
   startDate: string; // Format ISO
   endDate: string; // Format ISO
 }
@@ -11,6 +12,7 @@ export interface CalendarEvent {
   id: string;
   title: string;
   start: Date;
+  hasJoined: boolean;
   end: Date;
   allDay: boolean;
   resource: {

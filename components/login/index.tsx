@@ -15,7 +15,7 @@ import Button from "../common/Button";
 
 const LoginPage: React.FC = () => {
   const router = useRouter();
-  const [username, setUsername] = useState("");
+  const [name, setname] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -23,14 +23,14 @@ const LoginPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!isValidEmail(username)) {
+    if (!isValidEmail(name)) {
       setError("Insert a valid email.");
       return;
     }
 
     setIsLoading(true);
     const loginPayload: LoginPayload = {
-      email: username,
+      email: name,
       password: password,
     };
 
@@ -76,12 +76,12 @@ const LoginPage: React.FC = () => {
               <MailIcon className="h-6 w-6 text-purple-400" />
               <input
                 type="text"
-                id="username"
+                id="name"
                 placeholder="Enter your email"
-                name="username"
+                name="name"
                 className="w-full bg-transparent border-b border-purple-400 caret-white focus:outline-none"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={name}
+                onChange={(e) => setname(e.target.value)}
               />
             </div>
           </div>

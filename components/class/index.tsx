@@ -56,7 +56,6 @@ const ClassDetailsPage = () => {
 
   const fetchRole = async () => {
     const userRole = await getRole();
-    console.log("Role:", userRole);
     setRole(userRole);
   };
 

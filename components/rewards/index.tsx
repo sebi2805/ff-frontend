@@ -74,7 +74,7 @@ const RewardsTable = () => {
                   <td className="px-6 py-3 text-gray-800">{index + 1}</td>
                   <td className="px-6 py-3 text-gray-800">{reward.name}</td>
                   <td className="px-6 py-3 text-gray-800">
-                    {reward.normalUserName}
+                    {reward.normalname}
                   </td>
                   <td className="px-6 py-3 text-gray-800">{reward.gymName}</td>
                   <td className="px-6 py-3 text-gray-800">

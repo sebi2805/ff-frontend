@@ -13,6 +13,11 @@ const errorMessages: { [key: string]: string } = {
   INVALID_PASSWORD: "The password does not meet the security requirements.",
   INVALID_EMAIL: "The email address is not valid.",
   SENDGRID_API_KEY_NOT_FOUND: "Internal error. Please try again later.",
+  INVALID_INTERVAL: "The specified interval is invalid.",
+  INVALID_DATES: "The provided dates are not valid.",
+  CLASS_NOT_FOUND: "The specified class was not found.",
+  REWARD_NOT_FOUND: "The specified reward was not found.",
+  EXPIRED_CLASS: "The class has expired.",
 };
 
 export const decodeErrorMessage = (error: any): string => {

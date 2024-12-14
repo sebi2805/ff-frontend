@@ -18,6 +18,6 @@ export const isValidLocation = (location: string) => {
   return location.trim().length > 0 && location.trim().length <= 30;
 };
 
-export const isValidUsername = (username: string) => {
-  return username.length >= 3 && username.length <= 20;
+export const isValidname = (name: string) => {
+  return name.length >= 3 && name.length <= 20;
 };

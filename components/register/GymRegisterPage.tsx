@@ -21,7 +21,7 @@ import {
   isValidLocation,
   isValidPassword,
   isValidPasswordConfirm,
-  isValidUsername,
+  isValidname,
 } from "../../utils/validators";
 import PasswordInput from "../common/PasswordInput";
 import { decodeErrorMessage } from "../../utils/errorMessages";
@@ -31,7 +31,7 @@ const GymRegisterPage: React.FC = () => {
   const router = useRouter();
 
   const [email, setEmail] = useState<string>("");
-  const [username, setUsername] = useState<string>("");
+  const [name, setname] = useState<string>("");
   const [location, setLocation] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passwordConfirm, setPasswordConfirm] = useState<string>("");
@@ -45,9 +45,8 @@ const GymRegisterPage: React.FC = () => {
       validationErrors.email = "Insert a valid email.";
     }
 
-    if (!isValidUsername(username)) {
-      validationErrors.username =
-        "Username must be between 3 and 20 characters.";
+    if (!isValidname(name)) {
+      validationErrors.name = "name must be between 3 and 20 characters.";
     }
 
     if (!isValidPassword(password)) {
@@ -76,7 +75,7 @@ const GymRegisterPage: React.FC = () => {
 
     setIsLoading(true);
     const gymRegisterPayload: GymRegisterPayload = {
-      name: username,
+      name: name,
       email: email,
       password: password,
       location: location,
@@ -135,22 +134,20 @@ const GymRegisterPage: React.FC = () => {
             {errors.email && <p className="text-red-500">{errors.email}</p>}
           </div>
           <div>
-            <label htmlFor="username" className="block">
-              Username
+            <label htmlFor="name" className="block">
+              name
             </label>
             <div className="flex gap-2">
               <UserIcon className="h-6 w-6 text-purple-400" />
               <input
                 type="text"
-                placeholder="Enter your username"
+                placeholder="Enter your name"
                 className="w-full bg-transparent border-b border-purple-400 caret-white focus:outline-none"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={name}
+                onChange={(e) => setname(e.target.value)}
               />
             </div>
-            {errors.username && (
-              <p className="text-red-500 ">{errors.username}</p>
-            )}
+            {errors.name && <p className="text-red-500 ">{errors.name}</p>}
           </div>
           <div>
             <label htmlFor="location" className="block">

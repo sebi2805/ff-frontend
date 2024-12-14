@@ -4,8 +4,8 @@ import { GetUserAdminDto } from "../../interfaces/user";
 interface UserRowProps {
   user: GetUserAdminDto;
   index: number;
-  onOpenDeleteModal: (userId: string, userName: string) => void;
-  onOpenToggleModal: (userId: string, userName: string) => void;
+  onOpenDeleteModal: (userId: string, name: string) => void;
+  onOpenToggleModal: (userId: string, name: string) => void;
 }
 
 const UserRow: React.FC<UserRowProps> = ({

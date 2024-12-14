@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 const navLinks = [
   { label: "Home", href: "/home" },
   { label: "Rewards", href: "/home/rewards" },
+  { label: "Settings", href: "/home/settings" },
 ];
 
 const Navbar = () => {
@@ -23,17 +24,17 @@ const Navbar = () => {
     <nav className="bg-black-lighter text-white fixed w-full top-0 z-10">
       <div className="flex items-center justify-between px-4 py-2">
         {/* Logo */}
-        <div className="flex items-center">
+        <Link href="/home" passHref className="flex items-center">
           <div className="relative w-12 h-12">
             <Image
-              src="/logo_4.png" // Replace with your actual logo path
+              src="/logo_4.png"
               alt="FitFlow Logo"
               layout="fill"
               objectFit="cover"
             />
           </div>
           <span className="ml-2 font-bold text-xl">FitFlow</span>
-        </div>
+        </Link>
 
         {/* Desktop Navigation Links */}
         <ul className="hidden md:flex space-x-4">
