@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import apiClient from "../../utils/apiClient";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import apiClient from "../../utils/apiClient";
 import { getRole } from "../../utils/common";
-import ConfirmationModal from "../common/ConfirmationModal";
 import { decodeErrorMessage } from "../../utils/errorMessages";
 import Button from "../common/Button";
+import ConfirmationModal from "../common/ConfirmationModal";
 
 export interface GetClassDto {
   id: string;
@@ -102,6 +102,7 @@ const ClassDetailsPage = () => {
       setDeleteModalOpen(false);
       router.push("/home");
     } catch (error) {
+      console.error("Error deleting class:", error);
       toast.error("Failed to delete class.");
     }
   };

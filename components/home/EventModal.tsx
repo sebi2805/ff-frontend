@@ -1,5 +1,5 @@
-import React, { Fragment, useState, FormEvent, useMemo } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import React, { FormEvent, Fragment, useMemo, useState } from "react";
 import CreatableSelect from "react-select/creatable";
 import { AddClassDto, ClassFormValues } from "../../interfaces/class";
 import Button from "../common/Button";
