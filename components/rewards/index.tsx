@@ -1,15 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import apiClient from "../../utils/apiClient";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { GetRewardDto } from "../../interfaces/reward";
+import apiClient from "../../utils/apiClient";
 import Button from "../common/Button";
 
 const RewardsTable = () => {
   const [rewards, setRewards] = useState<GetRewardDto[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isLoadingRedeem, setIsLoadingRedeem] = useState(false);
 
   const fetchRewards = async () => {
     try {

@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import ConfirmationModal from "../common/ConfirmationModal";
 import UserRow from "./UserRow";
 import { useUsersManagement } from "./useUsersManagement";
-import ConfirmationModal from "../common/ConfirmationModal";
 
 const UserTable: React.FC = () => {
   const { users, fetchUsers, onDelete, onToggle } = useUsersManagement();

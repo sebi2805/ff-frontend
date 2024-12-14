@@ -41,6 +41,7 @@ const SettingsPage: React.FC = () => {
       setLocation(data.location);
       setName(data.name);
     } catch (error: any) {
+      console.error("Error fetching user data:", error);
       toast.error("Failed to load user data.");
     }
   };

@@ -9,23 +9,23 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   GymRegisterPayload,
   RegisterValidationErrors,
 } from "../../interfaces/authentication";
 import apiClient from "../../utils/apiClient";
+import { decodeErrorMessage } from "../../utils/errorMessages";
 import {
   isValidEmail,
   isValidLocation,
+  isValidname,
   isValidPassword,
   isValidPasswordConfirm,
-  isValidname,
 } from "../../utils/validators";
-import PasswordInput from "../common/PasswordInput";
-import { decodeErrorMessage } from "../../utils/errorMessages";
 import Button from "../common/Button";
+import PasswordInput from "../common/PasswordInput";
 
 const GymRegisterPage: React.FC = () => {
   const router = useRouter();
