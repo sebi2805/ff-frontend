@@ -27,7 +27,7 @@ export function setCookie(
   document.cookie = `${name}=${encodeURIComponent(value)}${expires}; path=/`;
 }
 
-function deleteCookie(name: CookieName): void {
+export function deleteCookie(name: CookieName): void {
   if (typeof document === "undefined") return;
   document.cookie = `${name}=; Max-Age=-99999999; path=/`;
 }

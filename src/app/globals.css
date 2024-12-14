@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.rbc-calendar {
+  color: #000;
+}
+
 ::-webkit-scrollbar {
   width: 4px;
   height: 4px;

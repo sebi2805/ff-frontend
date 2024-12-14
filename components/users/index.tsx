@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import UserRow from "./UserRow";
 import { useUsersManagement } from "./useUsersManagement";
-import ConfirmationModal from "../common/ConfirmationModel";
+import ConfirmationModal from "../common/ConfirmationModal";
 
 const UserTable: React.FC = () => {
   const { users, fetchUsers, onDelete, onToggle } = useUsersManagement();
@@ -11,33 +11,33 @@ const UserTable: React.FC = () => {
   const [deleteModalState, setDeleteModalState] = useState({
     isOpen: false,
     userId: "",
-    userName: "",
+    name: "",
   });
 
   const [toggleModalState, setToggleModalState] = useState({
     isOpen: false,
     userId: "",
-    userName: "",
+    name: "",
   });
 
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  const openDeleteModal = (userId: string, userName: string) => {
-    setDeleteModalState({ isOpen: true, userId, userName });
+  const openDeleteModal = (userId: string, name: string) => {
+    setDeleteModalState({ isOpen: true, userId, name });
   };
 
   const closeDeleteModal = () => {
-    setDeleteModalState({ isOpen: false, userId: "", userName: "" });
+    setDeleteModalState({ isOpen: false, userId: "", name: "" });
   };
 
-  const openToggleModal = (userId: string, userName: string) => {
-    setToggleModalState({ isOpen: true, userId, userName });
+  const openToggleModal = (userId: string, name: string) => {
+    setToggleModalState({ isOpen: true, userId, name });
   };
 
   const closeToggleModal = () => {
-    setToggleModalState({ isOpen: false, userId: "", userName: "" });
+    setToggleModalState({ isOpen: false, userId: "", name: "" });
   };
 
   const handleConfirmDelete = () => {
@@ -102,7 +102,7 @@ const UserTable: React.FC = () => {
         onClose={closeDeleteModal}
         onConfirm={handleConfirmDelete}
         title="Confirm Deletion"
-        message={`Are you sure you want to delete ${deleteModalState.userName}? This action cannot be undone.`}
+        message={`Are you sure you want to delete ${deleteModalState.name}? This action cannot be undone.`}
         confirmText="Delete"
         confirmButtonColor="bg-red-600"
       />
@@ -113,7 +113,7 @@ const UserTable: React.FC = () => {
         onClose={closeToggleModal}
         onConfirm={handleConfirmToggle}
         title="Confirm Toggle"
-        message={`Are you sure you want to toggle ${toggleModalState.userName}'s status?`}
+        message={`Are you sure you want to toggle ${toggleModalState.name}'s status?`}
         confirmText="Toggle"
         confirmButtonColor="bg-green-600"
       />

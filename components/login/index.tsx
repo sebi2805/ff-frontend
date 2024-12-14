@@ -10,23 +10,27 @@ import { decodeErrorMessage } from "../../utils/errorMessages";
 import { toast } from "react-toastify";
 import { setCookie } from "../../utils/cookies";
 import { isValidEmail } from "../../utils/validators";
+import PasswordInput from "../common/PasswordInput";
+import Button from "../common/Button";
 
 const LoginPage: React.FC = () => {
   const router = useRouter();
-  const [username, setUsername] = useState("");
+  const [name, setname] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!isValidEmail(username)) {
+    if (!isValidEmail(name)) {
       setError("Insert a valid email.");
       return;
     }
 
+    setIsLoading(true);
     const loginPayload: LoginPayload = {
-      email: username,
+      email: name,
       password: password,
     };
 
@@ -34,11 +38,16 @@ const LoginPage: React.FC = () => {
       .post<LoginResponse>("/api/Users/login", loginPayload)
       .then((res) => {
         setCookie("access-token", res.data.token);
-        router.push("/home");
+        toast.success("Login successful!");
+        setIsLoading(false);
+        setTimeout(() => {
+          router.push("/home");
+        }, 500);
       })
       .catch((err) => {
         setError(decodeErrorMessage(err.response.data[0]));
         toast.error(decodeErrorMessage(err.response.data[0]));
+        setIsLoading(false);
       });
   };
 
@@ -63,15 +72,16 @@ const LoginPage: React.FC = () => {
             <label htmlFor="email" className="block">
               Email
             </label>
-            <div className="icon-and-input flex gap-2">
+            <div className="flex gap-2">
               <MailIcon className="h-6 w-6 text-purple-400" />
               <input
                 type="text"
-                id="username"
-                name="username"
+                id="name"
+                placeholder="Enter your email"
+                name="name"
                 className="w-full bg-transparent border-b border-purple-400 caret-white focus:outline-none"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={name}
+                onChange={(e) => setname(e.target.value)}
               />
             </div>
           </div>
@@ -79,24 +89,22 @@ const LoginPage: React.FC = () => {
             <label htmlFor="password" className="block">
               Password
             </label>
-            <div className="icon-and-input flex gap-2">
+            <div className="flex gap-2">
               <LockClosedIcon className="h-6 w-6 text-purple-400" />
-              <input
-                type="password"
-                id="password"
-                name="password"
-                className="w-full bg-transparent border-b border-purple-400 caret-white focus:outline-none"
+              <PasswordInput
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
               />
             </div>
           </div>
-          <button
+          <Button
+            isLoading={isLoading}
             type="submit"
             className="bg-purple-950 text-2xl font-bebas h-12 rounded-md"
           >
             Login
-          </button>
+          </Button>
         </form>
       </div>
     </div>

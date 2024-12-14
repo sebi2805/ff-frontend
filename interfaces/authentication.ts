@@ -11,6 +11,7 @@ export interface LoginResponse {
 
 export interface RegisterValidationErrors {
   email?: string;
+  name?: string;
   password?: string;
   passwordConfirm?: string;
   location?: string;
