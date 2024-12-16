@@ -126,11 +126,12 @@ const CalendarComponent: React.FC = () => {
         "api/Classes/get-all"
       );
       const classes = response.data;
+
       const formattedEvents: CalendarEvent[] = classes.map((cls) => ({
         id: cls.id,
         title: `${cls.trainerName} - ${cls.gymName}`,
-        start: new Date(cls.startDate),
-        end: new Date(cls.endDate),
+        start: moment.utc(cls.startDate).local().toDate(),
+        end: moment.utc(cls.endDate).local().toDate(),
         allDay: false,
         hasJoined: cls.hasJoined,
         resource: { color: cls.color },

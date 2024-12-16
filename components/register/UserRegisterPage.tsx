@@ -117,7 +117,7 @@ const UserRegisterPage: React.FC = () => {
           </div>
           <div>
             <label htmlFor="name" className="block">
-              name
+              Name
             </label>
             <div className="flex gap-2">
               <UserIcon className="h-6 w-6 text-purple-400" />
