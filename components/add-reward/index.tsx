@@ -35,6 +35,7 @@ const AddRewardPage: React.FC = () => {
         setUsers(userRes.data);
         setGyms(gymRes.data);
       } catch (error) {
+        console.error(error);
         toast.error("Failed to fetch user/gym options");
       }
     };
@@ -74,6 +75,7 @@ const AddRewardPage: React.FC = () => {
         toast.error("Error creating reward");
       }
     } catch (error) {
+      console.error(error);
       toast.error("Error creating reward");
     } finally {
       setIsLoading(false);
