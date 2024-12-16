@@ -5,10 +5,12 @@ import { toast } from "react-toastify";
 import { GetRewardDto } from "../../interfaces/reward";
 import apiClient from "../../utils/apiClient";
 import Button from "../common/Button";
+import { getRole } from "../../utils/common";
 
 const RewardsTable = () => {
   const [rewards, setRewards] = useState<GetRewardDto[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [role, setRole] = useState<string | null>(null);
 
   const fetchRewards = async () => {
     try {
@@ -24,10 +26,17 @@ const RewardsTable = () => {
     }
   };
 
+  const fetchRole = async () => {
+    const userRole = await getRole();
+    setRole(userRole);
+  };
+
   const redeemReward = async (id: string) => {
     try {
-      console.log(`Redeeming reward with id: ${id}`);
-      toast.success("Reward redeemed successfully.");
+      await apiClient.post(`/api/Rewards/claim/${id}`).then(() => {
+        toast.success("Reward redeemed successfully.");
+        fetchRewards();
+      });
     } catch (error) {
       console.error("Error redeeming reward:", error);
       toast.error("Failed to redeem reward.");
@@ -36,6 +45,7 @@ const RewardsTable = () => {
 
   useEffect(() => {
     fetchRewards();
+    fetchRole();
   }, []);
 
   if (isLoading) {
@@ -57,7 +67,9 @@ const RewardsTable = () => {
               <th className="px-6 py-3 text-left">Normal User</th>
               <th className="px-6 py-3 text-left">Gym Name</th>
               <th className="px-6 py-3 text-left">Redeem Date</th>
-              <th className="px-6 py-3 text-center">Action</th>
+              {role === "NormalUser" && (
+                <th className="px-6 py-3 text-center">Action</th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -77,20 +89,23 @@ const RewardsTable = () => {
                   </td>
                   <td className="px-6 py-3 text-gray-800">{reward.gymName}</td>
                   <td className="px-6 py-3 text-gray-800">
-                    {new Date(reward.redeemDate).toLocaleDateString()}
+                    {reward.redeemDate &&
+                      new Date(reward.redeemDate).toLocaleDateString()}
                   </td>
-                  <td className="px-6 py-3 text-center">
-                    {reward.redeemDate === null ? (
-                      <Button
-                        isLoading={isLoading}
-                        type="button"
-                        onClick={() => redeemReward(reward.id)}
-                        className="bg-purple-800 hover:bg-purple-200 text-black-text hover:text-black-dark font-bold py-2 px-4 rounded"
-                      >
-                        Redeem
-                      </Button>
-                    ) : null}
-                  </td>
+                  {role === "NormalUser" && (
+                    <td className="px-6 py-3 text-center">
+                      {reward.redeemDate === null ? (
+                        <Button
+                          isLoading={isLoading}
+                          type="button"
+                          onClick={() => redeemReward(reward.id)}
+                          className="bg-purple-800 hover:bg-purple-200 text-black-text hover:text-black-dark font-bold py-2 px-4 rounded"
+                        >
+                          Redeem
+                        </Button>
+                      ) : null}
+                    </td>
+                  )}
                 </tr>
               );
             })}
