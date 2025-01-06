@@ -71,6 +71,9 @@ const UserTable: React.FC = () => {
               <th className="px-4 py-2 text-left text-text whitespace-nowrap min-w-[200px]">
                 Location
               </th>
+              <th className="px-4 py-2 text-left text-text whitespace-nowrap min-w-[200px]">
+                Fitness Plan
+              </th>
               <th className="px-4 py-2 text-left text-text whitespace-nowrap min-w-[150px]">
                 Role
               </th>

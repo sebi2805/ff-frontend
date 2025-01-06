@@ -1,4 +1,5 @@
 "use client";
+import { CheckIcon } from "@heroicons/react/outline";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -12,9 +13,72 @@ import {
 } from "../../interfaces/class";
 import apiClient from "../../utils/apiClient";
 import { getRole } from "../../utils/common";
-import EventModal from "./EventModal";
 import { decodeErrorMessage } from "../../utils/errorMessages";
-import { CheckIcon } from "@heroicons/react/outline";
+import EventModal from "./EventModal";
+import PlanSelectModal from "./FitnessPlan";
+import FitnessPlanHeader from "./FitnessPlanHeader";
+
+const getPriorityIcon = (priority: string) => {
+  switch (priority) {
+    case "High":
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 16 16"
+          width="24"
+          height="24"
+          className="bg-white rounded-md"
+        >
+          <path
+            d="M3.5 9.9c-.5.3-1.1.1-1.4-.3s-.1-1.1.4-1.4l5-3c.3-.2.7-.2 1 0l5 3c.5.3.6.9.3 1.4-.3.5-.9.6-1.4.3L8 7.2 3.5 9.9z"
+            fill="#ff5630"
+          />
+        </svg>
+      );
+    case "Moderate":
+      return (
+        <svg
+          version="1.1"
+          id="Warstwa_1"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          className="bg-white rounded-md"
+          height="24"
+          viewBox="0 0 16 16"
+          x="0px"
+          y="0px"
+        >
+          <g id="icon_x2F_16px_x2F_medium-priority-">
+            <g>
+              <path
+                className="fill-[#FFAB00]"
+                d="M3,4h10c0.6,0,1,0.4,1,1s-0.4,1-1,1H3C2.4,6,2,5.6,2,5S2.4,4,3,4z M3,10h10c0.6,0,1,0.4,1,1s-0.4,1-1,1H3
+            c-0.6,0-1-0.4-1-1S2.4,10,3,10z"
+              />
+            </g>
+          </g>
+        </svg>
+      );
+
+    case "Low":
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 16 16"
+          className="bg-white rounded-md"
+          width="24"
+          height="24"
+        >
+          <path
+            d="M12.5 6.1c.5-.3 1.1-.1 1.4.4.3.5.1 1.1-.3 1.3l-5 3c-.3.2-.7.2-1 0l-5-3c-.6-.2-.7-.9-.4-1.3.2-.5.9-.7 1.3-.4L8 8.8l4.5-2.7z"
+            fill="#0065ff"
+          />
+        </svg>
+      );
+    default:
+      return null;
+  }
+};
 
 interface CustomToolbarProps extends ToolbarProps<CalendarEvent> {
   onToggleFilter: () => void;
@@ -25,13 +89,15 @@ const localizer = momentLocalizer(moment);
 
 const EventComponent = ({ event }: { event: CalendarEvent }) => (
   <div className="flex justify-between items-center px-2">
-    {event.title}{" "}
-    {event.hasJoined && (
-      <CheckIcon className="inline-block h-4 w-4 bg-black-dark rounded-md" />
-    )}
+    <div className="flex items-center justify-between">
+      {getPriorityIcon(event.resource.priority)}
+      {event.hasJoined && (
+        <CheckIcon className="inline-block h-6 ml-2 w-6 bg-black-dark rounded-md" />
+      )}
+    </div>
+    {event.title}
   </div>
 );
-
 const CustomToolbar: React.FC<CustomToolbarProps> = ({
   label,
   view,
@@ -105,6 +171,7 @@ const CalendarComponent: React.FC = () => {
   const [trainers, setTrainers] = useState<string[]>([]);
   const [role, setRole] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFitnessPlanModalOpen, setIsFitnessPlanModalOpen] = useState(false);
 
   const [filteredEvents, setFilteredEvents] = useState<CalendarEvent[]>(events);
   const [isFilterActive, setIsFilterActive] = useState(false);
@@ -134,7 +201,10 @@ const CalendarComponent: React.FC = () => {
         end: moment.utc(cls.endDate).local().toDate(),
         allDay: false,
         hasJoined: cls.hasJoined,
-        resource: { color: cls.color },
+        resource: {
+          color: cls.color,
+          priority: cls.priority,
+        },
       }));
       setEvents(formattedEvents);
       setFilteredEvents(formattedEvents);
@@ -184,60 +254,107 @@ const CalendarComponent: React.FC = () => {
     handleCloseModal();
   };
 
+  const closeFitnessPlanModal = () => {
+    setIsFitnessPlanModalOpen(false);
+  };
+
+  const selectFitnessPlan = async (fitnessPlan: string | null) => {
+    if (fitnessPlan) {
+      await apiClient
+        .put(`api/Users/update-fitness-plan`, { fitnessPlan })
+        .then(() => {
+          toast.success("Fitness plan updated successfully!");
+          closeFitnessPlanModal();
+        })
+        .catch((error) => {
+          toast.error(decodeErrorMessage(error.response.data[0]));
+        });
+    }
+  };
+
+  const checkFitnessPlan = async () => {
+    try {
+      const response = await apiClient.get<boolean>(
+        "api/Users/check-fitness-plan"
+      );
+      setIsFitnessPlanModalOpen(response.data);
+    } catch (error) {
+      console.error("Error checking fitness plan:", error);
+    }
+  };
+
   useEffect(() => {
     fetchClasses();
     fetchTrainers();
     fetchRole();
   }, []);
 
+  useEffect(() => {
+    if (role === "NormalUser") {
+      checkFitnessPlan();
+    }
+  }, [role]);
+
   return (
-    <div style={{ height: "80vh", padding: "20px" }}>
-      <Calendar
-        localizer={localizer}
-        events={filteredEvents}
-        startAccessor="start"
-        endAccessor="end"
-        components={{
-          event: EventComponent,
-          toolbar: (props) => (
-            <CustomToolbar
-              {...props}
-              onToggleFilter={handleShowJoinedClasses}
-              isFilterActive={isFilterActive}
-            />
-          ),
-        }}
-        selectable={role === "GymOwner"}
-        onSelectSlot={handleSelectSlot}
-        onSelectEvent={(event) => router.push(`/home/class/${event.id}`)}
-        defaultView="month"
-        eventPropGetter={(event) => {
-          const backgroundColor = event.resource?.color || "#3174ad";
-          return {
-            style: {
-              backgroundColor,
-              borderRadius: "5px",
-              color: "white",
-              border: "none",
-              display: "block",
-            },
-          };
-        }}
-        popup
-        style={{ height: "100%" }}
-      />
-      {isModalOpen && selectedEndDate && selectedStartDate && (
-        <EventModal
-          trainers={trainers}
-          isOpen={isModalOpen}
-          isLoading={isLoading}
-          onClose={handleCloseModal}
-          defaultEndDate={selectedEndDate}
-          defaultStartDate={selectedStartDate}
-          onAddEvent={handleAddEvent}
-        />
+    <>
+      {role === "NormalUser" && (
+        <>
+          <FitnessPlanHeader />
+          <PlanSelectModal
+            isOpen={isFitnessPlanModalOpen}
+            onClose={closeFitnessPlanModal}
+            onSubmit={selectFitnessPlan}
+          />
+        </>
       )}
-    </div>
+      <div style={{ height: "80vh", padding: "20px" }}>
+        <Calendar
+          localizer={localizer}
+          events={filteredEvents}
+          startAccessor="start"
+          endAccessor="end"
+          components={{
+            event: EventComponent,
+            toolbar: (props) => (
+              <CustomToolbar
+                {...props}
+                onToggleFilter={handleShowJoinedClasses}
+                isFilterActive={isFilterActive}
+              />
+            ),
+          }}
+          selectable={role === "GymOwner"}
+          onSelectSlot={handleSelectSlot}
+          onSelectEvent={(event) => router.push(`/home/class/${event.id}`)}
+          defaultView="month"
+          eventPropGetter={(event) => {
+            const backgroundColor = event.resource?.color || "#3174ad";
+            return {
+              style: {
+                backgroundColor,
+                borderRadius: "5px",
+                color: "white",
+                border: "none",
+                display: "block",
+              },
+            };
+          }}
+          popup
+          style={{ height: "100%" }}
+        />
+        {isModalOpen && selectedEndDate && selectedStartDate && (
+          <EventModal
+            trainers={trainers}
+            isOpen={isModalOpen}
+            isLoading={isLoading}
+            onClose={handleCloseModal}
+            defaultEndDate={selectedEndDate}
+            defaultStartDate={selectedStartDate}
+            onAddEvent={handleAddEvent}
+          />
+        )}
+      </div>
+    </>
   );
 };
 

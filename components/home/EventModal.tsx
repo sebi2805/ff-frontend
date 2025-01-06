@@ -1,6 +1,7 @@
+import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
 import { Dialog, Transition } from "@headlessui/react";
 import React, { FormEvent, Fragment, useMemo, useState } from "react";
-import CreatableSelect from "react-select/creatable";
 import { AddClassDto, ClassFormValues } from "../../interfaces/class";
 import Button from "../common/Button";
 
@@ -23,7 +24,6 @@ const EventModal: React.FC<EventModalProps> = ({
   defaultStartDate,
   defaultEndDate,
 }) => {
-  // Default values for the form
   const defaultStart = useMemo(() => {
     return defaultStartDate
       .toLocaleString("sv-SE")
@@ -43,6 +43,7 @@ const EventModal: React.FC<EventModalProps> = ({
     interval: "0",
     startDate: defaultStart,
     endDate: defaultEnd,
+    priority: "Medium",
   });
 
   const trainerOptions = trainers.map((trainer) => ({
@@ -50,10 +51,23 @@ const EventModal: React.FC<EventModalProps> = ({
     value: trainer,
   }));
 
+  const priorityOptions = [
+    { label: "High", value: 2 },
+    { label: "Medium", value: 1 },
+    { label: "Low", value: 0 },
+  ];
+
   const handleTrainerChange = (selectedOption: any) => {
     setFormValues((prev) => ({
       ...prev,
       trainerName: selectedOption?.value || "",
+    }));
+  };
+
+  const handlePriorityChange = (selectedOption: any) => {
+    setFormValues((prev) => ({
+      ...prev,
+      priority: selectedOption.value,
     }));
   };
 
@@ -75,7 +89,7 @@ const EventModal: React.FC<EventModalProps> = ({
     const startDate = new Date(formValues.startDate);
     const endDate = new Date(formValues.endDate);
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Comparăm doar datele, nu orele
+    today.setHours(0, 0, 0);
 
     if (!formValues.trainerName) {
       newErrors.push("Trainer name cannot be empty.");
@@ -94,19 +108,20 @@ const EventModal: React.FC<EventModalProps> = ({
     }
 
     if (newErrors.length > 0) {
-      setErrors(newErrors); // Stocăm erorile pentru afișare
+      setErrors(newErrors);
       return;
     }
 
-    setErrors([]); // Resetăm erorile dacă totul este valid
+    setErrors([]);
 
     const classDto: AddClassDto = {
       trainerName: formValues.trainerName,
       interval: Number(formValues.interval),
       startDate: startDate.toISOString(),
       endDate: endDate.toISOString(),
+      priority: Number(formValues.priority),
     };
-
+    console.log(classDto);
     onAddEvent(classDto);
   };
 
@@ -116,8 +131,6 @@ const EventModal: React.FC<EventModalProps> = ({
         as="div"
         className="fixed inset-0 z-10 overflow-y-auto"
         onClose={onClose}
-        aria-modal="true"
-        role="dialog"
       >
         <div className="flex items-end justify-center min-h-screen text-center sm:block sm:p-0">
           <Transition.Child
@@ -156,7 +169,6 @@ const EventModal: React.FC<EventModalProps> = ({
                 Add New Class
               </Dialog.Title>
 
-              {/* Afișare Erori */}
               {errors.length > 0 && (
                 <div className="bg-red-500 text-white text-sm p-3 rounded-md">
                   <ul>
@@ -168,8 +180,6 @@ const EventModal: React.FC<EventModalProps> = ({
               )}
 
               <form onSubmit={handleSubmit} className="mt-4 space-y-4">
-                {/* Restul codului pentru formular */}
-                {/* Trainer Select */}
                 <div>
                   <label className="block text-sm font-medium text-black-text">
                     Trainer Name
@@ -225,11 +235,66 @@ const EventModal: React.FC<EventModalProps> = ({
 
                 <div>
                   <label className="block text-sm font-medium text-black-text">
+                    Priority
+                  </label>
+                  <Select
+                    options={priorityOptions}
+                    onChange={handlePriorityChange}
+                    defaultValue={priorityOptions.find(
+                      (opt) => opt.value.toString() === formValues.priority
+                    )}
+                    className="mt-1"
+                    styles={{
+                      control: (base, state) => ({
+                        ...base,
+                        backgroundColor: "#2a2a2a",
+                        color: "#e5e5e5",
+                        borderColor: state.isFocused ? "#a872ff" : "#4b5563",
+                        boxShadow: state.isFocused
+                          ? "0 0 0 1px #a872ff"
+                          : undefined,
+                        "&:hover": {
+                          borderColor: "#a872ff",
+                        },
+                      }),
+                      menu: (base) => ({
+                        ...base,
+                        backgroundColor: "#1a1a1a",
+                        color: "#e5e5e5",
+                      }),
+                      singleValue: (base) => ({
+                        ...base,
+                        color: "#e5e5e5",
+                      }),
+                      input: (base) => ({
+                        ...base,
+                        color: "#e5e5e5",
+                      }),
+                      placeholder: (base) => ({
+                        ...base,
+                        color: "#888888",
+                      }),
+                      option: (base, state) => ({
+                        ...base,
+                        backgroundColor: state.isFocused
+                          ? "#a872ff"
+                          : "#1a1a1a",
+                        color: "#e5e5e5",
+                        "&:active": {
+                          backgroundColor: "#a872ff",
+                        },
+                      }),
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-black-text">
                     Interval (days)
                   </label>
                   <input
                     type="number"
-                    className="mt-1 pl-4 block w-full border-gray-300 rounded-md bg-black-lighter text-black-text focus:outline-none focus:ring-purple-400 focus:border-purple-400 focus:ring-2"
+                    className="mt-1 pl-4 block w-full border-gray-300 rounded-md bg-black-lighter text-black-text"
                     value={formValues.interval}
                     onChange={handleChange("interval")}
                     required
@@ -242,7 +307,7 @@ const EventModal: React.FC<EventModalProps> = ({
                   </label>
                   <input
                     type="datetime-local"
-                    className="mt-1 pl-4 block w-full border-gray-300 rounded-md bg-black-lighter text-black-text focus:outline-none focus:ring-purple-400 focus:border-purple-400 focus:ring-2"
+                    className="mt-1 pl-4 block w-full border-gray-300 rounded-md bg-black-lighter text-black-text"
                     value={formValues.startDate}
                     onChange={handleChange("startDate")}
                     required
@@ -255,14 +320,13 @@ const EventModal: React.FC<EventModalProps> = ({
                   </label>
                   <input
                     type="datetime-local"
-                    className="mt-1 pl-4 block w-full border-gray-300 rounded-md bg-black-lighter text-black-text focus:outline-none focus:ring-purple-400 focus:border-purple-400 focus:ring-2"
+                    className="mt-1 pl-4 block w-full border-gray-300 rounded-md bg-black-lighter text-black-text"
                     value={formValues.endDate}
                     onChange={handleChange("endDate")}
                     required
                   />
                 </div>
 
-                {/* Buttons */}
                 <div className="flex justify-end space-x-2 pt-4">
                   <button
                     type="button"
