@@ -7,7 +7,7 @@ const Info: React.FC = () => {
       <div className="space-y-6 text-gray-200 max-w-xl">
         <div>
           <h2 className="text-xl font-bold mb-1">
-            Plan "Fundament" (Beginner Level):
+            Plan &quot;Fundament&quot; (Beginner Level):
           </h2>
           <p className="mb-2">
             2 low-activity training sessions per week. Ideal for those starting
@@ -19,7 +19,7 @@ const Info: React.FC = () => {
         </div>
         <div>
           <h2 className="text-xl font-bold mb-1">
-            Plan "Evolution" (Intermediate Level):
+            Plan &quot;Evolution&quot; (Intermediate Level):
           </h2>
           <p className="mb-2">
             2 low-activity + 2 moderate-activity training sessions per week.
@@ -31,7 +31,7 @@ const Info: React.FC = () => {
         </div>
         <div>
           <h2 className="text-xl font-bold mb-1">
-            Plan "Performance" (Advanced Level):
+            Plan &quot;Performance&quot; (Advanced Level):
           </h2>
           <p className="mb-2">
             2 high-activity + 2 moderate-activity training sessions per week.
@@ -43,7 +43,7 @@ const Info: React.FC = () => {
         </div>
         <div>
           <h2 className="text-xl font-bold mb-1">
-            Plan "Elite" (Expert Level):
+            Plan &quot;Elite&quot; (Expert Level):
           </h2>
           <p className="mb-2">
             Combines low, moderate, and high-activity workouts (2 each) per

@@ -77,27 +77,31 @@ const PlanSelectModal: React.FC<PlanSelectModalProps> = ({
               {/* Plan descriptions */}
               <div className="text-sm text-gray-200 space-y-2 mb-4">
                 <p>
-                  <strong>Plan "Fundament" (Beginner Level):</strong>
+                  <strong>Plan &quot;Fundament&quot; (Beginner Level):</strong>
                   <br />
                   2 low-activity training sessions.
                   <br />
                   Ideal for those starting out and wanting a fitness foundation.
                 </p>
                 <p>
-                  <strong>Plan "Evolution" (Intermediate Level):</strong>
+                  <strong>
+                    Plan &quot;Evolution&quot; (Intermediate Level):
+                  </strong>
                   <br />
                   2 low-activity trainings, 2 moderate-activity trainings.
                   <br />A gentle transition to a higher fitness level.
                 </p>
                 <p>
-                  <strong>Plan "Performance" (Advanced Level):</strong>
+                  <strong>
+                    Plan &quot;Performance&quot; (Advanced Level):
+                  </strong>
                   <br />
                   2 high-activity trainings, 2 moderate-activity trainings.
                   <br />
                   Great for those aiming for elevated performance.
                 </p>
                 <p>
-                  <strong>Plan "Elite" (Expert Level):</strong>
+                  <strong>Plan &quot;Elite&quot; (Expert Level):</strong>
                   <br />
                   Combines low, moderate, and high-activity workouts:
                   <br />
