@@ -7,6 +7,19 @@ module.exports = {
   ],
   theme: {
     extend: {
+      animation: {
+        "text-reveal": "text-reveal 1.5s cubic-bezier(0.77, 0, 0.175, 1) 0.5s",
+      },
+      keyframes: {
+        "text-reveal": {
+          "0%": {
+            transform: "translate(0, 100%)",
+          },
+          "100%": {
+            transform: "translate(0, 0)",
+          },
+        },
+      },
       colors: {
         purple: {
           50: "#f4f0ff",
@@ -33,12 +46,12 @@ module.exports = {
           950: "#5c0042",
         },
         black: {
-          light: '#1a1a1a',  // Slightly lighter black
-          lighter: '#2a2a2a', // Lighter shade for accents
-          dark: '#000000',   // Pure black
-          text: '#e5e5e5',   // Soft white for text
-          muted: '#888888',  // Muted gray for secondary text
-          highlight: '#3d3d3d', // Highlight areas
+          light: "#1a1a1a", // Slightly lighter black
+          lighter: "#2a2a2a", // Lighter shade for accents
+          dark: "#000000", // Pure black
+          text: "#e5e5e5", // Soft white for text
+          muted: "#888888", // Muted gray for secondary text
+          highlight: "#3d3d3d", // Highlight areas
         },
       },
       fontFamily: {

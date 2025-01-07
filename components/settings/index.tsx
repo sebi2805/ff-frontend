@@ -16,12 +16,56 @@ import {
   isValidname,
 } from "../../utils/validators";
 
+// Importa react-select
+import Select from "react-select";
+
+// (1) Definește opțiunile pentru plan (același array ca în PlanSelectModal)
+const planOptions = [
+  { value: "fundament", label: "Fundament (Beginner)" },
+  { value: "evolution", label: "Evolution (Intermediate)" },
+  { value: "performance", label: "Performance (Advanced)" },
+  { value: "elite", label: "Elite (Expert)" },
+];
+
+// (2) Definim un stil personalizat pentru <Select>
+const customSelectStyles = {
+  control: (base: any, state: any) => ({
+    ...base,
+    backgroundColor: "#fff", // poți modifica dacă vrei altă culoare
+    color: "#111",
+    borderColor: state.isFocused ? "#a872ff" : "#ccc",
+    boxShadow: state.isFocused ? "0 0 0 1px #a872ff" : undefined,
+    "&:hover": {
+      borderColor: "#a872ff",
+    },
+  }),
+  menu: (base: any) => ({
+    ...base,
+    zIndex: 10,
+  }),
+  singleValue: (base: any) => ({
+    ...base,
+    color: "#111",
+  }),
+  placeholder: (base: any) => ({
+    ...base,
+    color: "#888",
+  }),
+  option: (base: any, state: any) => ({
+    ...base,
+    backgroundColor: state.isFocused ? "#a872ff" : "#fff",
+    color: state.isFocused ? "#fff" : "#111",
+  }),
+};
+
 const SettingsPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [location, setLocation] = useState<string | null>(null);
   const [password, setPassword] = useState<string>("");
   const [passwordConfirm, setPasswordConfirm] = useState<string>("");
+
+  const [fitnessPlan, setFitnessPlan] = useState<string | null>(null); // (2) Starea pentru plan
 
   const [errors, setErrors] = useState<RegisterValidationErrors>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -32,6 +76,7 @@ const SettingsPage: React.FC = () => {
     setRole(userRole);
   };
 
+  // (3) Fetch user + populare fitnessPlan dacă există în datele userului
   const fetchUser = async () => {
     try {
       const { data } = await apiClient.get<UserSettings>(
@@ -40,6 +85,12 @@ const SettingsPage: React.FC = () => {
       setEmail(data.email);
       setLocation(data.location);
       setName(data.name);
+
+      // Dacă pe backend ai definit un câmp `fitnessPlan`, setează-l:
+
+      if (data.fitnessPlan) {
+        setFitnessPlan(data.fitnessPlan);
+      }
     } catch (error: any) {
       console.error("Error fetching user data:", error);
       toast.error("Failed to load user data.");
@@ -76,10 +127,30 @@ const SettingsPage: React.FC = () => {
 
     const payload: UserSettingsPayload = {};
 
+    // Adaugă în payload doar dacă există o valoare
     if (password) {
       payload.password = password;
     }
 
+    // (4) În payload, trimite și fitnessPlan, dacă ai un câmp dedicat în backend
+    if (fitnessPlan) {
+      switch (fitnessPlan) {
+        case "fundament":
+          payload.fitnessPlan = 0;
+          break;
+        case "evolution":
+          payload.fitnessPlan = 1;
+          break;
+        case "performance":
+          payload.fitnessPlan = 2;
+          break;
+        case "elite":
+          payload.fitnessPlan = 3;
+          break;
+        default:
+          break;
+      }
+    }
     setIsLoading(true);
     await apiClient
       .put("/api/Users/update-user", payload)
@@ -99,6 +170,7 @@ const SettingsPage: React.FC = () => {
     fetchUser();
     fetchRole();
   }, []);
+
   return (
     <div className="flex flex-col items-start justify-start gap-6 p-8 max-w-4xl mx-auto">
       <h1 className="text-4xl font-bold">Settings</h1>
@@ -161,9 +233,28 @@ const SettingsPage: React.FC = () => {
         </div>
       )}
 
+      {role === "NormalUser" && (
+        <div className="w-full">
+          <label
+            htmlFor="fitnessPlan"
+            className="block text-black-dark font-medium text-lg"
+          >
+            Fitness Plan
+          </label>
+          <Select
+            id="fitnessPlan"
+            options={planOptions}
+            value={planOptions.find((option) => option.value === fitnessPlan)}
+            onChange={(option) => setFitnessPlan(option?.value || null)}
+            styles={customSelectStyles} // folosește stilul custom
+            placeholder="Select your fitness plan"
+          />
+        </div>
+      )}
+      {/* Parola nouă */}
       <div className="w-full">
         <label
-          htmlFor="confir-password"
+          htmlFor="new-password"
           className="block text-black-dark font-medium text-lg"
         >
           New Password
@@ -171,7 +262,7 @@ const SettingsPage: React.FC = () => {
         <PasswordInput
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="text-black-dark "
+          className="text-black-dark"
           placeholder="Enter a new password"
         />
         {errors.password && (
@@ -179,6 +270,7 @@ const SettingsPage: React.FC = () => {
         )}
       </div>
 
+      {/* Confirmare parola nouă */}
       <div className="w-full">
         <label
           htmlFor="password-confirm"
@@ -189,7 +281,7 @@ const SettingsPage: React.FC = () => {
         <PasswordInput
           value={passwordConfirm}
           onChange={(e) => setPasswordConfirm(e.target.value)}
-          className="text-black-dark "
+          className="text-black-dark"
           placeholder="Confirm your new password"
         />
         {errors.passwordConfirm && (

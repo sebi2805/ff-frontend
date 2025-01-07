@@ -2,7 +2,7 @@
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { Calendar, momentLocalizer, ToolbarProps } from "react-big-calendar";
+import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { toast } from "react-toastify";
 import {
@@ -12,90 +12,14 @@ import {
 } from "../../interfaces/class";
 import apiClient from "../../utils/apiClient";
 import { getRole } from "../../utils/common";
-import EventModal from "./EventModal";
 import { decodeErrorMessage } from "../../utils/errorMessages";
-import { CheckIcon } from "@heroicons/react/outline";
-
-interface CustomToolbarProps extends ToolbarProps<CalendarEvent> {
-  onToggleFilter: () => void;
-  isFilterActive: boolean;
-}
+import { CustomToolbar } from "./CustomToolBar";
+import EventModal from "./EventModal";
+import PlanSelectModal from "./FitnessPlan";
+import FitnessPlanHeader from "./FitnessPlanHeader";
+import { EventComponent } from "./EventComponent";
 
 const localizer = momentLocalizer(moment);
-
-const EventComponent = ({ event }: { event: CalendarEvent }) => (
-  <div className="flex justify-between items-center px-2">
-    {event.title}{" "}
-    {event.hasJoined && (
-      <CheckIcon className="inline-block h-4 w-4 bg-black-dark rounded-md" />
-    )}
-  </div>
-);
-
-const CustomToolbar: React.FC<CustomToolbarProps> = ({
-  label,
-  view,
-  onNavigate,
-  onView,
-  onToggleFilter,
-  isFilterActive,
-}) => {
-  return (
-    <div className="rbc-toolbar">
-      <div className="rbc-btn-group">
-        <button type="button" onClick={() => onNavigate("PREV")}>
-          Back
-        </button>
-        <button type="button" onClick={() => onNavigate("TODAY")}>
-          Today
-        </button>
-        <button type="button" onClick={() => onNavigate("NEXT")}>
-          Next
-        </button>
-      </div>
-
-      <span className="rbc-toolbar-label">{label}</span>
-
-      <div className="rbc-btn-group">
-        <button
-          type="button"
-          onClick={() => onView("month")}
-          className={view === "month" ? "rbc-active" : ""}
-        >
-          Month
-        </button>
-        <button
-          type="button"
-          onClick={() => onView("week")}
-          className={view === "week" ? "rbc-active" : ""}
-        >
-          Week
-        </button>
-        <button
-          type="button"
-          onClick={() => onView("day")}
-          className={view === "day" ? "rbc-active" : ""}
-        >
-          Day
-        </button>
-        <button
-          type="button"
-          onClick={() => onView("agenda")}
-          className={view === "agenda" ? "rbc-active" : ""}
-        >
-          Agenda
-        </button>
-      </div>
-      <button
-        type="button"
-        onClick={onToggleFilter}
-        className={`rbc-btn ${isFilterActive ? "rbc-active" : ""}`}
-      >
-        {isFilterActive ? "Show all classes" : "Show only joined classes"}
-      </button>
-    </div>
-  );
-};
 
 const CalendarComponent: React.FC = () => {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
@@ -105,6 +29,7 @@ const CalendarComponent: React.FC = () => {
   const [trainers, setTrainers] = useState<string[]>([]);
   const [role, setRole] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFitnessPlanModalOpen, setIsFitnessPlanModalOpen] = useState(false);
 
   const [filteredEvents, setFilteredEvents] = useState<CalendarEvent[]>(events);
   const [isFilterActive, setIsFilterActive] = useState(false);
@@ -134,7 +59,10 @@ const CalendarComponent: React.FC = () => {
         end: moment.utc(cls.endDate).local().toDate(),
         allDay: false,
         hasJoined: cls.hasJoined,
-        resource: { color: cls.color },
+        resource: {
+          color: cls.color,
+          priority: cls.priority,
+        },
       }));
       setEvents(formattedEvents);
       setFilteredEvents(formattedEvents);
@@ -184,60 +112,107 @@ const CalendarComponent: React.FC = () => {
     handleCloseModal();
   };
 
+  const closeFitnessPlanModal = () => {
+    setIsFitnessPlanModalOpen(false);
+  };
+
+  const selectFitnessPlan = async (fitnessPlan: string | null) => {
+    if (fitnessPlan) {
+      await apiClient
+        .put(`api/Users/update-fitness-plan`, { fitnessPlan })
+        .then(() => {
+          toast.success("Fitness plan updated successfully!");
+          closeFitnessPlanModal();
+        })
+        .catch((error) => {
+          toast.error(decodeErrorMessage(error.response.data[0]));
+        });
+    }
+  };
+
+  const checkFitnessPlan = async () => {
+    try {
+      const response = await apiClient.get<boolean>(
+        "api/Users/check-fitness-plan"
+      );
+      setIsFitnessPlanModalOpen(response.data);
+    } catch (error) {
+      console.error("Error checking fitness plan:", error);
+    }
+  };
+
   useEffect(() => {
     fetchClasses();
     fetchTrainers();
     fetchRole();
   }, []);
 
+  useEffect(() => {
+    if (role === "NormalUser") {
+      checkFitnessPlan();
+    }
+  }, [role]);
+
   return (
-    <div style={{ height: "80vh", padding: "20px" }}>
-      <Calendar
-        localizer={localizer}
-        events={filteredEvents}
-        startAccessor="start"
-        endAccessor="end"
-        components={{
-          event: EventComponent,
-          toolbar: (props) => (
-            <CustomToolbar
-              {...props}
-              onToggleFilter={handleShowJoinedClasses}
-              isFilterActive={isFilterActive}
-            />
-          ),
-        }}
-        selectable={role === "GymOwner"}
-        onSelectSlot={handleSelectSlot}
-        onSelectEvent={(event) => router.push(`/home/class/${event.id}`)}
-        defaultView="month"
-        eventPropGetter={(event) => {
-          const backgroundColor = event.resource?.color || "#3174ad";
-          return {
-            style: {
-              backgroundColor,
-              borderRadius: "5px",
-              color: "white",
-              border: "none",
-              display: "block",
-            },
-          };
-        }}
-        popup
-        style={{ height: "100%" }}
-      />
-      {isModalOpen && selectedEndDate && selectedStartDate && (
-        <EventModal
-          trainers={trainers}
-          isOpen={isModalOpen}
-          isLoading={isLoading}
-          onClose={handleCloseModal}
-          defaultEndDate={selectedEndDate}
-          defaultStartDate={selectedStartDate}
-          onAddEvent={handleAddEvent}
-        />
+    <>
+      {role === "NormalUser" && (
+        <>
+          <FitnessPlanHeader />
+          <PlanSelectModal
+            isOpen={isFitnessPlanModalOpen}
+            onClose={closeFitnessPlanModal}
+            onSubmit={selectFitnessPlan}
+          />
+        </>
       )}
-    </div>
+      <div style={{ height: "80vh", padding: "20px" }}>
+        <Calendar
+          localizer={localizer}
+          events={filteredEvents}
+          startAccessor="start"
+          endAccessor="end"
+          components={{
+            event: EventComponent,
+            toolbar: (props) => (
+              <CustomToolbar
+                {...props}
+                onToggleFilter={handleShowJoinedClasses}
+                isFilterActive={isFilterActive}
+              />
+            ),
+          }}
+          selectable={role === "GymOwner"}
+          onSelectSlot={handleSelectSlot}
+          onSelectEvent={(event) => router.push(`/home/class/${event.id}`)}
+          defaultView="month"
+          eventPropGetter={(event) => {
+            const backgroundColor = event.resource?.color || "#3174ad";
+            return {
+              style: {
+                backgroundColor,
+                borderRadius: "5px",
+                color: "white",
+                border: "none",
+                display: "block",
+              },
+            };
+          }}
+          popup
+          style={{ height: "100%" }}
+        />
+        {isModalOpen && selectedEndDate && selectedStartDate && (
+          <EventModal
+            trainers={trainers}
+            isOpen={isModalOpen}
+            isLoading={isLoading}
+            onClose={handleCloseModal}
+            defaultEndDate={selectedEndDate}
+            defaultStartDate={selectedStartDate}
+            onAddEvent={handleAddEvent}
+          />
+        )}
+      </div>
+    </>
   );
 };
 

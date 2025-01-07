@@ -53,11 +53,11 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black-light">
-      <div className="w-full max-w-md p-8 bg-purple-600 text-white shadow-md rounded-md">
+      <div className="w-full max-w-md p-8 bg-[#41ab5d] text-white shadow-md rounded-md">
         <div className="flex flex-col items-center mb-6">
           {/* Logo */}
           <Image
-            src="/logo_4.png"
+            src="/logo-green.webp"
             alt="FitFlow Logo"
             width={100}
             height={100}
@@ -73,13 +73,13 @@ const LoginPage: React.FC = () => {
               Email
             </label>
             <div className="flex gap-2">
-              <MailIcon className="h-6 w-6 text-purple-400" />
+              <MailIcon className="h-6 w-6 text-[#005a32]" />
               <input
                 type="text"
                 id="name"
                 placeholder="Enter your email"
                 name="name"
-                className="w-full bg-transparent border-b border-purple-400 caret-white focus:outline-none"
+                className="w-full bg-transparent border-b border-[#005a32] caret-white focus:outline-none"
                 value={name}
                 onChange={(e) => setname(e.target.value)}
               />
@@ -90,7 +90,7 @@ const LoginPage: React.FC = () => {
               Password
             </label>
             <div className="flex gap-2">
-              <LockClosedIcon className="h-6 w-6 text-purple-400" />
+              <LockClosedIcon className="h-6 w-6 text-[#005a32]" />
               <PasswordInput
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -101,7 +101,7 @@ const LoginPage: React.FC = () => {
           <Button
             isLoading={isLoading}
             type="submit"
-            className="bg-purple-950 text-2xl font-bebas h-12 rounded-md"
+            className="bg-[#005a32] text-2xl font-bebas h-12 rounded-md"
           >
             Login
           </Button>
