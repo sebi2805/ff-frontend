@@ -122,12 +122,12 @@ const PlanSelectModal: React.FC<PlanSelectModalProps> = ({
                     ...base,
                     backgroundColor: "#2a2a2a",
                     color: "#e5e5e5",
-                    borderColor: state.isFocused ? "#a872ff" : "#4b5563",
+                    borderColor: state.isFocused ? "#005a32" : "#4b5563",
                     boxShadow: state.isFocused
-                      ? "0 0 0 1px #a872ff"
+                      ? "0 0 0 1px #005a32"
                       : undefined,
                     "&:hover": {
-                      borderColor: "#a872ff",
+                      borderColor: "#005a32",
                     },
                   }),
                   menu: (base) => ({
@@ -154,10 +154,10 @@ const PlanSelectModal: React.FC<PlanSelectModalProps> = ({
                   }),
                   option: (base, state) => ({
                     ...base,
-                    backgroundColor: state.isFocused ? "#a872ff" : "#1a1a1a",
+                    backgroundColor: state.isFocused ? "#005a32" : "#1a1a1a",
                     color: "#e5e5e5",
                     "&:active": {
-                      backgroundColor: "#a872ff",
+                      backgroundColor: "#005a32",
                     },
                   }),
                 }}

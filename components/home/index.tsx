@@ -157,7 +157,7 @@ const CalendarComponent: React.FC = () => {
       checkFitnessPlan();
     }
   }, [role]);
-
+  console.log(role);
   return (
     <>
       {role === "NormalUser" && (
