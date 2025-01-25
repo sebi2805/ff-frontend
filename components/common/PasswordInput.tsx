@@ -21,7 +21,7 @@ const PasswordInput: FC<PasswordInputProps> = ({
   };
 
   return (
-    <div className="flex items-center gap-2 border-b w-full border-purple-400 pb-1">
+    <div className="flex items-center gap-2 border-b w-full border-[#011f4b] pb-1">
       <input
         type={showPassword ? "text" : "password"}
         className={`w-full bg-transparent caret-white focus:outline-none ${className}`}
@@ -33,7 +33,7 @@ const PasswordInput: FC<PasswordInputProps> = ({
       <button
         type="button"
         onClick={togglePasswordVisibility}
-        className="text-purple-400 focus:outline-none"
+        className="text-[#011f4b] focus:outline-none"
       >
         {showPassword ? (
           <EyeOffIcon className="h-6 w-6" />

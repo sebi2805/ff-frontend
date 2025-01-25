@@ -31,6 +31,9 @@ const UserRow: React.FC<UserRowProps> = ({
       <td className="px-4 py-2 text-text text-black-lighter">
         {user.location || "N/A"}
       </td>
+      <td className="px-4 py-2 text-text text-black-lighter">
+        {user.fitnessPlan || "N/A"}
+      </td>
       <td className="px-4 py-2 text-text text-black-lighter">{user.role}</td>
       <td className="px-4 py-2 text-text text-black-lighter">
         {user.isVerified ? "Yes" : "No"}

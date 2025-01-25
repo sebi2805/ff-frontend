@@ -8,15 +8,8 @@ import { getRole } from "../../utils/common";
 import { decodeErrorMessage } from "../../utils/errorMessages";
 import Button from "../common/Button";
 import ConfirmationModal from "../common/ConfirmationModal";
-
-export interface GetClassDto {
-  id: string;
-  trainerName: string;
-  gymName: string;
-  color: string;
-  startDate: string;
-  endDate: string;
-}
+import { GetClassDto } from "../../interfaces/class";
+import { PriorityIcon } from "../common/PriorityIcon";
 
 const ClassDetailsPage = () => {
   const params = useParams();
@@ -135,14 +128,16 @@ const ClassDetailsPage = () => {
     <div className="p-6 min-h-screen">
       {/* Class Header */}
       <div className="text-3xl font-bebas px-4 mb-6 text-black-dark bg-purple-200 p-4 rounded-md flex justify-between items-start">
-        <div className="flex-col">
-          <h1 className="text-4xl font-bold" style={{ color: color }}>
-            {trainerName} @ {gymName}
-          </h1>
-          <p className="text-sm text-black-dark">Start: {formattedStart}</p>
-          <p className="text-sm text-black-dark">End: {formattedEnd}</p>
+        <div className="flex items-center">
+          <PriorityIcon priority={classData.priority} size="64" />
+          <div className="flex-col ml-4">
+            <h1 className="text-4xl font-bold" style={{ color: color }}>
+              {trainerName} @ {gymName}
+            </h1>
+            <p className="text-sm text-black-dark">Start: {formattedStart}</p>
+            <p className="text-sm text-black-dark">End: {formattedEnd}</p>
+          </div>
         </div>
-
         {role === "GymOwner" ? (
           <Button
             isLoading={isLoadingButton}
