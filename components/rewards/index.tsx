@@ -69,12 +69,14 @@ const RewardsTable = () => {
           <h1 className="text-3xl font-bebas text-white text-center">
             Rewards List
           </h1>
-          <Button
-            onClick={openModal}
-            className="bg-green-200 text-white py-2 px-2 rounded hover:bg-green-150 font-bold"
-          >
-            Modify Rewards
-          </Button>
+          {role === "GymOwner" && (
+            <Button
+              onClick={openModal}
+              className="bg-green-200 text-white py-2 px-2 rounded hover:bg-green-150 font-bold"
+            >
+              Modify Rewards
+            </Button>
+          )}
         </div>
         <div className="w-full overflow-x-auto rounded-lg shadow-lg">
           <table className="w-full border-collapse rounded-lg overflow-hidden">

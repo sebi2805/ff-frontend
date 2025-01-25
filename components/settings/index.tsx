@@ -21,10 +21,10 @@ import Select from "react-select";
 
 // (1) Definește opțiunile pentru plan (același array ca în PlanSelectModal)
 const planOptions = [
-  { value: "fundament", label: "Fundament (Beginner)" },
-  { value: "evolution", label: "Evolution (Intermediate)" },
-  { value: "performance", label: "Performance (Advanced)" },
-  { value: "elite", label: "Elite (Expert)" },
+  { value: "Beginner", label: "Fundament (Beginner)" },
+  { value: "Intermediate", label: "Evolution (Intermediate)" },
+  { value: "Advanced", label: "Performance (Advanced)" },
+  { value: "Expert", label: "Elite (Expert)" },
 ];
 
 // (2) Definim un stil personalizat pentru <Select>
