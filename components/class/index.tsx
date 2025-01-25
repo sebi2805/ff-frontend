@@ -127,7 +127,7 @@ const ClassDetailsPage = () => {
   return (
     <div className="p-6 min-h-screen">
       {/* Class Header */}
-      <div className="text-3xl font-bebas px-4 mb-6 text-black-dark bg-purple-200 p-4 rounded-md flex justify-between items-start">
+      <div className="text-3xl font-bebas px-4 mb-6 text-black-dark bg-green-10 p-4 rounded-md flex justify-between items-start">
         <div className="flex items-center">
           <PriorityIcon priority={classData.priority} size="64" />
           <div className="flex-col ml-4">
@@ -165,7 +165,7 @@ const ClassDetailsPage = () => {
       <div className="overflow-x-auto bg-white shadow-md rounded-lg">
         <table className="w-full border-collapse">
           <thead>
-            <tr className="bg-black-light text-white">
+            <tr className="bg-green-300 text-white">
               <th className="px-6 py-3 text-left">#</th>
               <th className="px-6 py-3 text-left">Participant Name</th>
             </tr>
@@ -176,9 +176,9 @@ const ClassDetailsPage = () => {
               return (
                 <tr
                   key={index}
-                  className={`border-b border-purple-700 ${
-                    isEven ? "bg-purple-200" : "bg-pink-200"
-                  } hover:bg-purple-400 transition-colors`}
+                  className={`border-b border-green-200 ${
+                    isEven ? "bg-green-1" : "bg-green-10"
+                  } transition-colors`}
                 >
                   <td className="px-6 py-3 text-gray-800">{index + 1}</td>
                   <td className="px-6 py-3 text-gray-800">{participant}</td>

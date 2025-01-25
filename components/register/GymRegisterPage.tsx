@@ -98,12 +98,12 @@ const GymRegisterPage: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-[100vh] bg-black-light">
-      <div className="register-page bg-purple-600 h-full max-h-[800px] w-[100vw] max-w-md flex overflow-y-auto flex-col items-center justify-around p-10 rounded-md">
+    <div className="flex items-center justify-center h-[100vh] bg-green-300">
+      <div className="register-page bg-green-100 h-full max-h-[800px] w-[100vw] max-w-md flex overflow-y-auto flex-col items-center justify-around p-10 rounded-md">
         <div className="logo-and-name flex flex-col items-center w-full">
           <Image
             className="logo flex-none"
-            src="/logo_4.png"
+            src="/logo.png"
             alt="logo"
             width={100}
             height={100}
@@ -120,13 +120,13 @@ const GymRegisterPage: React.FC = () => {
               Email
             </label>
             <div className="flex gap-2">
-              <MailIcon className="h-6 w-6 text-purple-400" />
+              <MailIcon className="h-6 w-6 text-green-300" />
               <input
                 type="email"
                 id="email"
                 name="email"
                 placeholder="Enter your email"
-                className="w-full bg-transparent border-b border-purple-400 caret-white focus:outline-none"
+                className="w-full bg-transparent border-b border-green-300 caret-white focus:outline-none placeholder-black-dark"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -138,11 +138,11 @@ const GymRegisterPage: React.FC = () => {
               Name
             </label>
             <div className="flex gap-2">
-              <UserIcon className="h-6 w-6 text-purple-400" />
+              <UserIcon className="h-6 w-6 text-green-300" />
               <input
                 type="text"
                 placeholder="Enter your name"
-                className="w-full bg-transparent border-b border-purple-400 caret-white focus:outline-none"
+                className="w-full bg-transparent border-b border-green-300 caret-white focus:outline-none placeholder-black-dark"
                 value={name}
                 onChange={(e) => setname(e.target.value)}
               />
@@ -154,14 +154,14 @@ const GymRegisterPage: React.FC = () => {
               Location
             </label>
             <div className="flex gap-2">
-              <LocationMarkerIcon className="h-6 w-6 text-purple-400" />
+              <LocationMarkerIcon className="h-6 w-6 text-green-300" />
               <input
                 type="text"
                 id="location"
                 name="location"
                 autoComplete="new-location"
                 placeholder="Enter your location"
-                className="w-full bg-transparent border-b border-purple-400 caret-white focus:outline-none"
+                className="w-full bg-transparent border-b border-green-300 caret-white focus:outline-none placeholder-black-dark"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
               />
@@ -175,7 +175,7 @@ const GymRegisterPage: React.FC = () => {
               Password
             </label>
             <div className="flex gap-2">
-              <LockClosedIcon className="h-6 w-6 text-purple-400" />
+              <LockClosedIcon className="h-6 w-6 text-green-300" />
               <PasswordInput
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -191,7 +191,7 @@ const GymRegisterPage: React.FC = () => {
               Confirm Password
             </label>
             <div className="flex gap-2">
-              <LockClosedIcon className="h-6 w-6 text-purple-400" />
+              <LockClosedIcon className="h-6 w-6 text-green-300" />
               <PasswordInput
                 value={passwordConfirm}
                 onChange={(e) => setPasswordConfirm(e.target.value)}
@@ -205,14 +205,14 @@ const GymRegisterPage: React.FC = () => {
           <Button
             isLoading={isLoading}
             type="submit"
-            className="bg-purple-950 text-2xl font-bebas h-12 rounded-md"
+            className="bg-green-950 text-2xl font-bebas h-12 rounded-md"
           >
             Register
           </Button>
           <button
             type="button"
             onClick={() => router.push("/login")}
-            className="bg-purple-400 text-2xl font-bebas h-12 rounded-md"
+            className="bg-green-300 text-2xl font-bebas h-12 rounded-md"
           >
             Log in
           </button>

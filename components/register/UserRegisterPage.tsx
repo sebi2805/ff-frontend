@@ -84,12 +84,12 @@ const UserRegisterPage: React.FC = () => {
   };
 
   return (
-    <div className=" flex items-center justify-center h-[100vh] bg-black-light">
-      <div className="bg-purple-600 max-h-[800px] h-full w-[100vw] overflow-y-auto max-w-md flex flex-col items-center justify-around p-10 rounded-md">
+    <div className=" flex items-center justify-center h-[100vh] bg-green-300">
+      <div className="bg-green-100 max-h-[800px] h-full w-[100vw] overflow-y-auto max-w-md flex flex-col items-center justify-around p-10 rounded-md">
         <div className="flex flex-col items-center w-full">
           <Image
             className="logo flex-none"
-            src="/logo_4.png"
+            src="/logo.png"
             alt="logo"
             width={100}
             height={100}
@@ -102,13 +102,13 @@ const UserRegisterPage: React.FC = () => {
               Email
             </label>
             <div className="flex gap-2">
-              <MailIcon className="h-6 w-6 text-purple-400" />
+              <MailIcon className="h-6 w-6 text-green-300" />
               <input
                 type="email"
                 id="email"
                 name="email"
                 placeholder="Enter your email"
-                className="w-full bg-transparent border-b border-purple-400 caret-white focus:outline-none"
+                className="w-full bg-transparent border-b border-green-300 caret-white focus:outline-none placeholder-black-dark"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -120,13 +120,13 @@ const UserRegisterPage: React.FC = () => {
               Name
             </label>
             <div className="flex gap-2">
-              <UserIcon className="h-6 w-6 text-purple-400" />
+              <UserIcon className="h-6 w-6 text-green-300" />
               <input
                 type="text"
                 id="name"
                 name="name"
                 placeholder="Enter your name"
-                className="w-full bg-transparent border-b border-purple-400 caret-white focus:outline-none"
+                className="w-full bg-transparent border-b border-green-300 caret-white focus:outline-none placeholder-black-dark"
                 value={name}
                 onChange={(e) => setname(e.target.value)}
               />
@@ -138,7 +138,7 @@ const UserRegisterPage: React.FC = () => {
               Password
             </label>
             <div className="flex gap-2">
-              <LockClosedIcon className="h-6 w-6 text-purple-400" />
+              <LockClosedIcon className="h-6 w-6 text-green-300" />
               <PasswordInput
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -154,7 +154,7 @@ const UserRegisterPage: React.FC = () => {
               Confirm Password
             </label>
             <div className="flex gap-2">
-              <LockClosedIcon className="h-6 w-6 text-purple-400" />
+              <LockClosedIcon className="h-6 w-6 text-green-300" />
               <PasswordInput
                 value={passwordConfirm}
                 onChange={(e) => setPasswordConfirm(e.target.value)}
@@ -168,13 +168,13 @@ const UserRegisterPage: React.FC = () => {
           <Button
             isLoading={isLoading}
             type="submit"
-            className="bg-purple-950 text-2xl font-bebas h-12 rounded-md"
+            className="bg-green-300 text-2xl font-bebas h-12 rounded-md"
           >
             Register
           </Button>
           <button
             onClick={() => router.push("/login")}
-            className="bg-purple-400 text-2xl font-bebas h-12 rounded-md"
+            className="bg-green-300 text-2xl font-bebas h-12 rounded-md"
           >
             Log in
           </button>
