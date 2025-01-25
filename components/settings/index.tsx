@@ -132,6 +132,14 @@ const SettingsPage: React.FC = () => {
       payload.password = password;
     }
 
+    if (name) {
+      payload.name = name;
+    }
+
+    if (location) {
+      payload.location = location;
+    }
+
     // (4) În payload, trimite și fitnessPlan, dacă ai un câmp dedicat în backend
     if (fitnessPlan) {
       switch (fitnessPlan) {
@@ -172,8 +180,8 @@ const SettingsPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-start justify-start gap-6 p-8 max-w-4xl mx-auto">
-      <h1 className="text-4xl font-bold">Settings</h1>
+    <div className="flex flex-col bg-white items-center mt-12 rounded-md gap-6 p-4 max-w-4xl mx-auto">
+      <h1 className="text-4xl font-bold text-green-300">Settings</h1>
 
       {/* Email */}
       <div className="w-full">
@@ -187,7 +195,7 @@ const SettingsPage: React.FC = () => {
           type="email"
           id="email"
           disabled={true}
-          className="w-full border-b border-gray-400 focus:border-purple-500 outline-none py-2 text-black-dark cursor-not-allowed"
+          className="w-full border-b border-gray-400 focus:border-green-200 outline-none py-2 text-black-dark cursor-not-allowed"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -205,7 +213,7 @@ const SettingsPage: React.FC = () => {
         <input
           type="text"
           id="name"
-          className="w-full border-b border-gray-400 focus:border-purple-500 outline-none py-2 text-black-dark "
+          className="w-full border-b border-gray-400 focus:border-green-200 outline-none py-2 text-black-dark "
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
@@ -223,7 +231,7 @@ const SettingsPage: React.FC = () => {
           <input
             type="text"
             id="name"
-            className="w-full border-b border-gray-400 focus:border-purple-500 outline-none py-2 text-black-dark "
+            className="w-full border-b border-gray-400 focus:border-green-200 outline-none py-2 text-black-dark "
             value={location || ""}
             onChange={(e) => setLocation(e.target.value)}
           />
@@ -292,7 +300,7 @@ const SettingsPage: React.FC = () => {
       <Button
         isLoading={isLoading}
         onClick={handleSave}
-        className="bg-purple-600 text-xl px-6 py-3 rounded-md"
+        className="bg-green-200 text-xl px-6 py-3 rounded-md"
       >
         Save Changes
       </Button>

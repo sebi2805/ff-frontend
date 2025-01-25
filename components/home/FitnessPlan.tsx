@@ -9,10 +9,10 @@ interface PlanSelectModalProps {
 }
 
 const planOptions = [
-  { value: "fundament", label: "Fundament (Beginner)" },
-  { value: "evolution", label: "Evolution (Intermediate)" },
-  { value: "performance", label: "Performance (Advanced)" },
-  { value: "elite", label: "Elite (Expert)" },
+  { value: "Beginner", label: "Fundament (Beginner)" },
+  { value: "Intermediate", label: "Evolution (Intermediate)" },
+  { value: "Advanced", label: "Performance (Advanced)" },
+  { value: "Expert", label: "Elite (Expert)" },
 ];
 
 const PlanSelectModal: React.FC<PlanSelectModalProps> = ({
@@ -174,7 +174,7 @@ const PlanSelectModal: React.FC<PlanSelectModalProps> = ({
                 </button>
                 <button
                   type="button"
-                  className="bg-purple-400 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded"
+                  className="bg-green-300 hover:bg-green-100 text-white font-bold py-2 px-4 rounded"
                   onClick={handleSubmit}
                 >
                   Submit

@@ -11,7 +11,7 @@ import {
   GetClassDto,
 } from "../../interfaces/class";
 import apiClient from "../../utils/apiClient";
-import { getRole } from "../../utils/common";
+import { fitnessPlanToEnum, getRole } from "../../utils/common";
 import { decodeErrorMessage } from "../../utils/errorMessages";
 import { CustomToolbar } from "./CustomToolBar";
 import EventModal from "./EventModal";
@@ -119,7 +119,12 @@ const CalendarComponent: React.FC = () => {
   const selectFitnessPlan = async (fitnessPlan: string | null) => {
     if (fitnessPlan) {
       await apiClient
-        .put(`api/Users/update-fitness-plan`, { fitnessPlan })
+        .put(
+          `api/Users/update-fitness-plan?fitnessPlan=${fitnessPlanToEnum(
+            fitnessPlan
+          )}`,
+          {}
+        )
         .then(() => {
           toast.success("Fitness plan updated successfully!");
           closeFitnessPlanModal();
@@ -165,7 +170,9 @@ const CalendarComponent: React.FC = () => {
           />
         </>
       )}
-      <div style={{ height: "80vh", padding: "20px" }}>
+      <div
+        style={{ height: "80vh", padding: "20px", backgroundColor: "white" }}
+      >
         <Calendar
           localizer={localizer}
           events={filteredEvents}

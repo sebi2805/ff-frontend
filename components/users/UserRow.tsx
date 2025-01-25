@@ -20,8 +20,8 @@ const UserRow: React.FC<UserRowProps> = ({
     <tr
       key={user.id}
       className={`border-b border-black-lighter ${
-        index % 2 ? "bg-purple-200" : "bg-pink-200"
-      } hover:bg-purple-400`}
+        index % 2 ? "bg-green-10" : "bg-green-1"
+      }`}
     >
       <td className="px-4 py-2 text-text text-black-lighter">
         {formattedDate}

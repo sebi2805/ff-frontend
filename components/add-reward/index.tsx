@@ -143,7 +143,7 @@ const AddRewardPage: React.FC = () => {
         <Button
           type="submit"
           isLoading={isLoading}
-          className="bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-400"
+          className="bg-green-200 text-white py-2 px-4 rounded hover:bg-green-150"
         >
           Save
         </Button>
