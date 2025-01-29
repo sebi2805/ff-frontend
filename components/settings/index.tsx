@@ -33,10 +33,10 @@ const customSelectStyles = {
     ...base,
     backgroundColor: "#fff", // poți modifica dacă vrei altă culoare
     color: "#111",
-    borderColor: state.isFocused ? "#a872ff" : "#ccc",
-    boxShadow: state.isFocused ? "0 0 0 1px #a872ff" : undefined,
+    borderColor: state.isFocused ? "#005a32" : "#ccc",
+    boxShadow: state.isFocused ? "0 0 0 1px #005a32" : undefined,
     "&:hover": {
-      borderColor: "#a872ff",
+      borderColor: "#005a32",
     },
   }),
   menu: (base: any) => ({
@@ -53,7 +53,7 @@ const customSelectStyles = {
   }),
   option: (base: any, state: any) => ({
     ...base,
-    backgroundColor: state.isFocused ? "#a872ff" : "#fff",
+    backgroundColor: state.isFocused ? "#005a32" : "#fff",
     color: state.isFocused ? "#fff" : "#111",
   }),
 };
