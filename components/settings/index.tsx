@@ -143,16 +143,16 @@ const SettingsPage: React.FC = () => {
     // (4) În payload, trimite și fitnessPlan, dacă ai un câmp dedicat în backend
     if (fitnessPlan) {
       switch (fitnessPlan) {
-        case "fundament":
+        case "Beginner":
           payload.fitnessPlan = 0;
           break;
-        case "evolution":
+        case "Intermediate":
           payload.fitnessPlan = 1;
           break;
-        case "performance":
+        case "Advanced":
           payload.fitnessPlan = 2;
           break;
-        case "elite":
+        case "Expert":
           payload.fitnessPlan = 3;
           break;
         default:
