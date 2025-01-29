@@ -19,6 +19,12 @@ import PlanSelectModal from "./FitnessPlan";
 import FitnessPlanHeader from "./FitnessPlanHeader";
 import { EventComponent } from "./EventComponent";
 
+moment.updateLocale("ro", {
+  week: {
+    dow: 1,
+    doy: 7,
+  },
+});
 const localizer = momentLocalizer(moment);
 
 const CalendarComponent: React.FC = () => {
@@ -157,7 +163,6 @@ const CalendarComponent: React.FC = () => {
       checkFitnessPlan();
     }
   }, [role]);
-  console.log(role);
   return (
     <>
       {role === "NormalUser" && (
