@@ -21,10 +21,10 @@ import Select from "react-select";
 
 // (1) Definește opțiunile pentru plan (același array ca în PlanSelectModal)
 const planOptions = [
-  { value: "fundament", label: "Fundament (Beginner)" },
-  { value: "evolution", label: "Evolution (Intermediate)" },
-  { value: "performance", label: "Performance (Advanced)" },
-  { value: "elite", label: "Elite (Expert)" },
+  { value: "Beginner", label: "Fundament (Beginner)" },
+  { value: "Intermediate", label: "Evolution (Intermediate)" },
+  { value: "Advanced", label: "Performance (Advanced)" },
+  { value: "Expert", label: "Elite (Expert)" },
 ];
 
 // (2) Definim un stil personalizat pentru <Select>
@@ -33,10 +33,10 @@ const customSelectStyles = {
     ...base,
     backgroundColor: "#fff", // poți modifica dacă vrei altă culoare
     color: "#111",
-    borderColor: state.isFocused ? "#a872ff" : "#ccc",
-    boxShadow: state.isFocused ? "0 0 0 1px #a872ff" : undefined,
+    borderColor: state.isFocused ? "#005a32" : "#ccc",
+    boxShadow: state.isFocused ? "0 0 0 1px #005a32" : undefined,
     "&:hover": {
-      borderColor: "#a872ff",
+      borderColor: "#005a32",
     },
   }),
   menu: (base: any) => ({
@@ -53,7 +53,7 @@ const customSelectStyles = {
   }),
   option: (base: any, state: any) => ({
     ...base,
-    backgroundColor: state.isFocused ? "#a872ff" : "#fff",
+    backgroundColor: state.isFocused ? "#005a32" : "#fff",
     color: state.isFocused ? "#fff" : "#111",
   }),
 };
@@ -132,19 +132,27 @@ const SettingsPage: React.FC = () => {
       payload.password = password;
     }
 
+    if (name) {
+      payload.name = name;
+    }
+
+    if (location) {
+      payload.location = location;
+    }
+
     // (4) În payload, trimite și fitnessPlan, dacă ai un câmp dedicat în backend
     if (fitnessPlan) {
       switch (fitnessPlan) {
-        case "fundament":
+        case "Beginner":
           payload.fitnessPlan = 0;
           break;
-        case "evolution":
+        case "Intermediate":
           payload.fitnessPlan = 1;
           break;
-        case "performance":
+        case "Advanced":
           payload.fitnessPlan = 2;
           break;
-        case "elite":
+        case "Expert":
           payload.fitnessPlan = 3;
           break;
         default:
@@ -172,8 +180,8 @@ const SettingsPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-start justify-start gap-6 p-8 max-w-4xl mx-auto">
-      <h1 className="text-4xl font-bold">Settings</h1>
+    <div className="flex flex-col bg-white items-center mt-12 rounded-md gap-6 p-4 max-w-4xl mx-auto">
+      <h1 className="text-4xl font-bold text-green-300">Settings</h1>
 
       {/* Email */}
       <div className="w-full">
@@ -187,7 +195,7 @@ const SettingsPage: React.FC = () => {
           type="email"
           id="email"
           disabled={true}
-          className="w-full border-b border-gray-400 focus:border-purple-500 outline-none py-2 text-black-dark cursor-not-allowed"
+          className="w-full border-b border-gray-400 focus:border-green-200 outline-none py-2 text-black-dark cursor-not-allowed"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -205,7 +213,7 @@ const SettingsPage: React.FC = () => {
         <input
           type="text"
           id="name"
-          className="w-full border-b border-gray-400 focus:border-purple-500 outline-none py-2 text-black-dark "
+          className="w-full border-b border-gray-400 focus:border-green-200 outline-none py-2 text-black-dark "
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
@@ -223,7 +231,7 @@ const SettingsPage: React.FC = () => {
           <input
             type="text"
             id="name"
-            className="w-full border-b border-gray-400 focus:border-purple-500 outline-none py-2 text-black-dark "
+            className="w-full border-b border-gray-400 focus:border-green-200 outline-none py-2 text-black-dark "
             value={location || ""}
             onChange={(e) => setLocation(e.target.value)}
           />
@@ -292,7 +300,7 @@ const SettingsPage: React.FC = () => {
       <Button
         isLoading={isLoading}
         onClick={handleSave}
-        className="bg-purple-600 text-xl px-6 py-3 rounded-md"
+        className="bg-green-200 text-xl px-6 py-3 rounded-md"
       >
         Save Changes
       </Button>

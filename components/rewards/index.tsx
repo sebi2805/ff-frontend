@@ -65,21 +65,23 @@ const RewardsTable = () => {
     <>
       <RewardsModal isOpen={isOpen} onClose={onClose} />
       <div className="container mx-auto p-4 mt-3 flex-col justify-center items-start">
-        <div className=" bg-purple-200 p-4 rounded-md flex justify-between items-center">
-          <h1 className="text-3xl font-bebas text-black-dark text-center">
+        <div className=" bg-green-1  p-4 rounded-md flex justify-between items-center">
+          <h1 className="text-3xl font-bebas text-white text-center">
             Rewards List
           </h1>
-          <Button
-            onClick={openModal}
-            className="bg-purple-500 text-white py-2 px-2 rounded hover:bg-purple-400 font-bold"
-          >
-            Modify Rewards
-          </Button>
+          {role === "GymOwner" && (
+            <Button
+              onClick={openModal}
+              className="bg-green-200 text-white py-2 px-2 rounded hover:bg-green-150 font-bold"
+            >
+              Modify Rewards
+            </Button>
+          )}
         </div>
         <div className="w-full overflow-x-auto rounded-lg shadow-lg">
           <table className="w-full border-collapse rounded-lg overflow-hidden">
             <thead>
-              <tr className="bg-black-light text-white rounded-lg">
+              <tr className="bg-green-300 text-white rounded-lg">
                 <th className="px-6 py-3 text-left">#</th>
                 <th className="px-6 py-3 text-left">Name</th>
                 <th className="px-6 py-3 text-left">Normal User</th>
@@ -97,9 +99,9 @@ const RewardsTable = () => {
                 return (
                   <tr
                     key={reward.id}
-                    className={`border-b border-purple-700 ${
-                      isEven ? "bg-purple-200" : "bg-pink-200"
-                    } hover:bg-purple-400 transition-colors`}
+                    className={`border-b border-green-200 ${
+                      isEven ? "bg-green-1" : "bg-green-10"
+                    } transition-colors`}
                   >
                     <td className="px-6 py-3 text-gray-800">{index + 1}</td>
                     <td className="px-6 py-3 text-gray-800">{reward.name}</td>
@@ -123,7 +125,7 @@ const RewardsTable = () => {
                             isLoading={isLoading}
                             type="button"
                             onClick={() => redeemReward(reward.id)}
-                            className="bg-purple-800 hover:bg-purple-200 text-black-text hover:text-black-dark font-bold py-2 px-4 rounded"
+                            className="bg-green-300 hover:bg-green-200 text-black-text hover:text-black-dark font-bold py-2 px-4 rounded"
                           >
                             Redeem
                           </Button>

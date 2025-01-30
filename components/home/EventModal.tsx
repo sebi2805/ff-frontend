@@ -194,12 +194,12 @@ const EventModal: React.FC<EventModalProps> = ({
                         ...base,
                         backgroundColor: "#2a2a2a",
                         color: "#e5e5e5",
-                        borderColor: state.isFocused ? "#a872ff" : "#4b5563",
+                        borderColor: state.isFocused ? "#74c476" : "#4b5563",
                         boxShadow: state.isFocused
-                          ? "0 0 0 1px #a872ff"
+                          ? "0 0 0 1px #74c476"
                           : undefined,
                         "&:hover": {
-                          borderColor: "#a872ff",
+                          borderColor: "#74c476",
                         },
                       }),
                       menu: (base) => ({
@@ -222,11 +222,11 @@ const EventModal: React.FC<EventModalProps> = ({
                       option: (base, state) => ({
                         ...base,
                         backgroundColor: state.isFocused
-                          ? "#a872ff"
+                          ? "#74c476"
                           : "#1a1a1a",
                         color: "#e5e5e5",
                         "&:active": {
-                          backgroundColor: "#a872ff",
+                          backgroundColor: "#74c476",
                         },
                       }),
                     }}
@@ -249,12 +249,12 @@ const EventModal: React.FC<EventModalProps> = ({
                         ...base,
                         backgroundColor: "#2a2a2a",
                         color: "#e5e5e5",
-                        borderColor: state.isFocused ? "#a872ff" : "#4b5563",
+                        borderColor: state.isFocused ? "#74c476" : "#4b5563",
                         boxShadow: state.isFocused
-                          ? "0 0 0 1px #a872ff"
+                          ? "0 0 0 1px #74c476"
                           : undefined,
                         "&:hover": {
-                          borderColor: "#a872ff",
+                          borderColor: "#74c476",
                         },
                       }),
                       menu: (base) => ({
@@ -277,11 +277,11 @@ const EventModal: React.FC<EventModalProps> = ({
                       option: (base, state) => ({
                         ...base,
                         backgroundColor: state.isFocused
-                          ? "#a872ff"
+                          ? "#74c476"
                           : "#1a1a1a",
                         color: "#e5e5e5",
                         "&:active": {
-                          backgroundColor: "#a872ff",
+                          backgroundColor: "#74c476",
                         },
                       }),
                     }}
@@ -338,7 +338,7 @@ const EventModal: React.FC<EventModalProps> = ({
                   <Button
                     isLoading={isLoading}
                     type="submit"
-                    className="bg-purple-400 hover:bg-purple-200 text-black-text font-bold py-2 px-4 rounded"
+                    className="bg-green-200 hover:bg-green-100 text-black-text font-bold py-2 px-4 rounded"
                   >
                     Save
                   </Button>

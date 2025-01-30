@@ -137,7 +137,7 @@ const RewardsModal: React.FC<RewardsModalProps> = ({ isOpen, onClose }) => {
                     <div className="flex justify-end">
                       <Button
                         type="button"
-                        className="bg-purple-400 hover:bg-purple-200 text-black-text font-bold py-1 px-3 rounded"
+                        className="bg-green-200 hover:bg-green-100 text-black-text font-bold py-1 px-3 rounded"
                         onClick={() => handleSaveRow(index)}
                         isLoading={loadingStates[index]}
                       >

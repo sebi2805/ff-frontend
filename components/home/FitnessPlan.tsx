@@ -9,10 +9,10 @@ interface PlanSelectModalProps {
 }
 
 const planOptions = [
-  { value: "fundament", label: "Fundament (Beginner)" },
-  { value: "evolution", label: "Evolution (Intermediate)" },
-  { value: "performance", label: "Performance (Advanced)" },
-  { value: "elite", label: "Elite (Expert)" },
+  { value: "Beginner", label: "Fundament (Beginner)" },
+  { value: "Intermediate", label: "Evolution (Intermediate)" },
+  { value: "Advanced", label: "Performance (Advanced)" },
+  { value: "Expert", label: "Elite (Expert)" },
 ];
 
 const PlanSelectModal: React.FC<PlanSelectModalProps> = ({
@@ -122,12 +122,12 @@ const PlanSelectModal: React.FC<PlanSelectModalProps> = ({
                     ...base,
                     backgroundColor: "#2a2a2a",
                     color: "#e5e5e5",
-                    borderColor: state.isFocused ? "#a872ff" : "#4b5563",
+                    borderColor: state.isFocused ? "#005a32" : "#4b5563",
                     boxShadow: state.isFocused
-                      ? "0 0 0 1px #a872ff"
+                      ? "0 0 0 1px #005a32"
                       : undefined,
                     "&:hover": {
-                      borderColor: "#a872ff",
+                      borderColor: "#005a32",
                     },
                   }),
                   menu: (base) => ({
@@ -154,10 +154,10 @@ const PlanSelectModal: React.FC<PlanSelectModalProps> = ({
                   }),
                   option: (base, state) => ({
                     ...base,
-                    backgroundColor: state.isFocused ? "#a872ff" : "#1a1a1a",
+                    backgroundColor: state.isFocused ? "#005a32" : "#1a1a1a",
                     color: "#e5e5e5",
                     "&:active": {
-                      backgroundColor: "#a872ff",
+                      backgroundColor: "#005a32",
                     },
                   }),
                 }}
@@ -174,7 +174,7 @@ const PlanSelectModal: React.FC<PlanSelectModalProps> = ({
                 </button>
                 <button
                   type="button"
-                  className="bg-purple-400 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded"
+                  className="bg-green-300 hover:bg-green-100 text-white font-bold py-2 px-4 rounded"
                   onClick={handleSubmit}
                 >
                   Submit

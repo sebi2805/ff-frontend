@@ -24,7 +24,7 @@ const PasswordInput: FC<PasswordInputProps> = ({
     <div className="flex items-center gap-2 border-b w-full border-[#011f4b] pb-1">
       <input
         type={showPassword ? "text" : "password"}
-        className={`w-full bg-transparent caret-white focus:outline-none ${className}`}
+        className={`w-full bg-transparent caret-white focus:outline-none ${className} placeholder-black-dark`}
         value={value}
         onChange={onChange}
         placeholder={placeholder}

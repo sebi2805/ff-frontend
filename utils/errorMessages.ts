@@ -18,6 +18,8 @@ const errorMessages: { [key: string]: string } = {
   CLASS_NOT_FOUND: "The specified class was not found.",
   REWARD_NOT_FOUND: "The specified reward was not found.",
   EXPIRED_CLASS: "The class has expired.",
+  FITNESS_PLAN_CHANGED_FREQUENT:
+    "You have changed your fitness plan too frequently.",
 };
 
 export const decodeErrorMessage = (error: any): string => {

@@ -73,8 +73,8 @@ const VerifyPage: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-[100vh] bg-black-light">
-      <div className="flex flex-col items-center w-full max-w-md bg-purple-600 p-20 rounded-md">
+    <div className="flex items-center justify-center h-[100vh] bg-green-300">
+      <div className="flex flex-col items-center w-full max-w-md bg-green-100 p-20 rounded-md">
         <h1 className="font-bold text-3xl">Verify Your Email</h1>
         <form
           onSubmit={handleSubmit}
@@ -89,7 +89,7 @@ const VerifyPage: React.FC = () => {
               id="email"
               name="email"
               placeholder="Enter your email"
-              className="w-full bg-transparent border-b border-purple-400 caret-white focus:outline-none"
+              className="w-full bg-transparent border-b border-green-300 caret-white focus:outline-none"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={emailDisabled}
@@ -107,7 +107,7 @@ const VerifyPage: React.FC = () => {
             <Button
               isLoading={isLoading}
               type="submit"
-              className="w-full bg-purple-400 text-white font-semibold py-2 rounded-md hover:bg-purple-700 transition-all"
+              className="w-full bg-green-300 text-white font-semibold py-2 rounded-md hover:bg-green-800 transition-all"
             >
               Verify
             </Button>

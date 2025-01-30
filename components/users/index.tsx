@@ -52,7 +52,7 @@ const UserTable: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4 mt-3 flex-col justify-center items-start">
-      <h1 className="text-3xl font-bebas mb-6 text-black-dark bg-purple-200 p-4 rounded-md">
+      <h1 className="text-3xl font-bebas mb-6 text-white bg-green-10 p-4 rounded-md">
         Users Dashboard
       </h1>
       <div className="w-full overflow-x-auto">

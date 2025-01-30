@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-green-white">
       {/* Navbar */}
       <Navbar />
       {/* Content */}

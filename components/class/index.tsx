@@ -11,18 +11,31 @@ import ConfirmationModal from "../common/ConfirmationModal";
 import { GetClassDto } from "../../interfaces/class";
 import { PriorityIcon } from "../common/PriorityIcon";
 
+interface Participant {
+  id: string;
+  name: string;
+}
+
 const ClassDetailsPage = () => {
   const params = useParams();
   const { classId } = params;
   const router = useRouter();
 
   const [classData, setClassData] = useState<GetClassDto | null>(null);
-  const [participants, setParticipants] = useState<string[]>([]);
+  const [participants, setParticipants] = useState<Participant[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isJoined, setIsJoined] = useState(false);
   const [isLoadingButton, setIsLoadingButton] = useState(false);
   const [role, setRole] = useState<string | null>(null);
 
+  // --- State pentru ștergerea unui participant ---
+  // În loc de string, folosim direct Participant | null
+  const [deleteParticipantModalOpen, setDeleteParticipantModalOpen] =
+    useState(false);
+  const [participantToDelete, setParticipantToDelete] =
+    useState<Participant | null>(null);
+
+  // Modal pentru ștergere completă a clasei
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const fetchClass = async () => {
@@ -38,7 +51,7 @@ const ClassDetailsPage = () => {
 
   const fetchParticipants = async () => {
     try {
-      const response = await apiClient.get<string[]>(
+      const response = await apiClient.get<Participant[]>(
         `/api/Classes/get-participants/${classId}`
       );
       setParticipants(response.data);
@@ -84,11 +97,11 @@ const ClassDetailsPage = () => {
       });
   };
 
-  const handleDelete = () => {
+  const handleDeleteClass = () => {
     setDeleteModalOpen(true);
   };
 
-  const handleConfirmDelete = async () => {
+  const handleConfirmDeleteClass = async () => {
     try {
       await apiClient.delete(`/api/Classes/delete/${classId}`);
       toast.success("Class deleted successfully.");
@@ -97,6 +110,32 @@ const ClassDetailsPage = () => {
     } catch (error) {
       console.error("Error deleting class:", error);
       toast.error("Failed to delete class.");
+    }
+  };
+
+  // --- Funcțiile pentru ștergerea participantului ---
+  const handleDeleteParticipantClick = (participant: Participant) => {
+    // Stocăm atât id-ul, cât și numele
+    setParticipantToDelete(participant);
+    setDeleteParticipantModalOpen(true);
+  };
+
+  const handleConfirmDeleteParticipant = async () => {
+    if (!participantToDelete) return;
+
+    try {
+      await apiClient.delete(
+        `/api/Classes/delete-participant/${classId}/${participantToDelete.id}`
+      );
+      toast.success(
+        `Participant "${participantToDelete.name}" removed successfully.`
+      );
+      setDeleteParticipantModalOpen(false);
+      setParticipantToDelete(null);
+      await fetchParticipants();
+    } catch (error) {
+      console.error("Error removing participant:", error);
+      toast.error("Failed to remove participant.");
     }
   };
 
@@ -110,6 +149,7 @@ const ClassDetailsPage = () => {
 
   useEffect(() => {
     loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [classId]);
 
   if (isLoading) {
@@ -123,11 +163,12 @@ const ClassDetailsPage = () => {
   const { trainerName, gymName, startDate, endDate, color } = classData;
   const formattedStart = new Date(startDate).toLocaleString();
   const formattedEnd = new Date(endDate).toLocaleString();
+  const isClassEnded = new Date(endDate) < new Date();
 
   return (
     <div className="p-6 min-h-screen">
       {/* Class Header */}
-      <div className="text-3xl font-bebas px-4 mb-6 text-black-dark bg-purple-200 p-4 rounded-md flex justify-between items-start">
+      <div className="text-3xl font-bebas px-4 mb-6 text-black-dark bg-green-10 p-4 rounded-md flex justify-between items-start">
         <div className="flex items-center">
           <PriorityIcon priority={classData.priority} size="64" />
           <div className="flex-col ml-4">
@@ -141,7 +182,7 @@ const ClassDetailsPage = () => {
         {role === "GymOwner" ? (
           <Button
             isLoading={isLoadingButton}
-            onClick={handleDelete}
+            onClick={handleDeleteClass}
             className="mt-4 px-4 py-2 font-bold rounded bg-red-600 hover:bg-red-700 text-white transition-colors"
           >
             Delete Class
@@ -165,9 +206,13 @@ const ClassDetailsPage = () => {
       <div className="overflow-x-auto bg-white shadow-md rounded-lg">
         <table className="w-full border-collapse">
           <thead>
-            <tr className="bg-black-light text-white">
+            <tr className="bg-green-300 text-white">
               <th className="px-6 py-3 text-left">#</th>
               <th className="px-6 py-3 text-left">Participant Name</th>
+              {/* Coloană pentru acțiuni dacă e GymOwner și clasa e încheiată */}
+              {role === "GymOwner" && isClassEnded && (
+                <th className="px-6 py-3 text-left">Actions</th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -175,13 +220,28 @@ const ClassDetailsPage = () => {
               const isEven = index % 2 === 0;
               return (
                 <tr
-                  key={index}
-                  className={`border-b border-purple-700 ${
-                    isEven ? "bg-purple-200" : "bg-pink-200"
-                  } hover:bg-purple-400 transition-colors`}
+                  key={participant.id}
+                  className={`border-b border-green-200 ${
+                    isEven ? "bg-green-1" : "bg-green-10"
+                  } transition-colors`}
                 >
                   <td className="px-6 py-3 text-gray-800">{index + 1}</td>
-                  <td className="px-6 py-3 text-gray-800">{participant}</td>
+                  <td className="px-6 py-3 text-gray-800">
+                    {participant.name}
+                  </td>
+                  {/* Buton de remove dacă e gym owner și clasa e încheiată */}
+                  {role === "GymOwner" && isClassEnded && (
+                    <td className="px-6 py-3">
+                      <Button
+                        className="px-4 py-2 font-bold bg-red-600 text-white rounded hover:bg-red-700"
+                        onClick={() =>
+                          handleDeleteParticipantClick(participant)
+                        }
+                      >
+                        Remove
+                      </Button>
+                    </td>
+                  )}
                 </tr>
               );
             })}
@@ -189,14 +249,26 @@ const ClassDetailsPage = () => {
         </table>
       </div>
 
-      {/* Confirmation Modal for Deletion */}
+      {/* Modal pentru ștergerea întregii clase */}
       <ConfirmationModal
         isOpen={deleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
-        onConfirm={handleConfirmDelete}
+        onConfirm={handleConfirmDeleteClass}
         title="Confirm Deletion"
         message="Are you sure you want to delete this class? This action cannot be undone."
         confirmText="Delete"
+        confirmButtonColor="bg-red-600"
+      />
+
+      {/* Modal pentru ștergerea unui participant */}
+      <ConfirmationModal
+        isOpen={deleteParticipantModalOpen}
+        onClose={() => setDeleteParticipantModalOpen(false)}
+        onConfirm={handleConfirmDeleteParticipant}
+        title="Confirm Participant Removal"
+        // Afișăm numele participantului, dar folosim ID-ul la delete
+        message={`Are you sure you want to remove participant "${participantToDelete?.name}"?`}
+        confirmText="Remove"
         confirmButtonColor="bg-red-600"
       />
     </div>

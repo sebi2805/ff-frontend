@@ -42,7 +42,7 @@ const FourDigitInput: React.FC<FourDigitInputProps> = ({
             ref={(el) => {
               if (el) inputsRef.current[index] = el;
             }}
-            className="aspect-square w-1/4 bg-purple-400 text-3xl rounded-md text-center caret-transparent focus:outline-none focus:border-2 focus:border-purple-200"
+            className="aspect-square w-1/4 bg-green-300 text-3xl rounded-md text-center caret-transparent focus:outline-none focus:border-2 focus:border-green-300"
           />
         ))}
       </div>
